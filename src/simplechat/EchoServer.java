@@ -152,6 +152,19 @@ public class EchoServer extends AbstractServer
       }
   }
  
+ //VIJAYS CODE: INVITING A CLIENT TO A ROOM.
+// public void InviteClientToARoom(ConnectionToClient client){
+//     Thread[] clientThreadList = getClientConnections();
+//     
+//     for (int i=0; i<clientThreadList.length; i++)
+//     {
+//         ConnectionToClient target = ((ConnectionToClient)clientThreadList[i]);
+//     }
+//     
+//     
+//     
+// }
+ 
  public void sendToAClientsInRoom(Object msg, ConnectionToClient client)
   {
     Thread[] clientThreadList = getClientConnections();
