@@ -31,6 +31,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         scrollbar3 = new java.awt.Scrollbar();
         scrollbar4 = new java.awt.Scrollbar();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jTextChat = new javax.swing.JTextField();
         jPanelUsers = new javax.swing.JPanel();
         scrollbarUsers = new java.awt.Scrollbar();
@@ -65,6 +66,9 @@ public class GUI extends javax.swing.JFrame {
         jMenuItemCreateEmoji = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,9 +130,11 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItemExit.setText("Exit");
         jMenuFile.add(jMenuItemExit);
 
+        jMenuItemChangeUserName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemChangeUserName.setText("Change User Name");
         jMenuFile.add(jMenuItemChangeUserName);
 
@@ -136,12 +142,15 @@ public class GUI extends javax.swing.JFrame {
 
         jMenuMessaging.setText("Messaging");
 
+        jMenuItemPrivateMessage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPrivateMessage.setText("Private Message");
         jMenuMessaging.add(jMenuItemPrivateMessage);
 
+        jMenuItemPingChatroom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPingChatroom.setText("Ping Chat Room");
         jMenuMessaging.add(jMenuItemPingChatroom);
 
+        jMenuItemPingContact.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPingContact.setText(" Ping Contact");
         jMenuMessaging.add(jMenuItemPingContact);
 
@@ -149,6 +158,7 @@ public class GUI extends javax.swing.JFrame {
 
         jMenuRoom.setText("Room");
 
+        jMenuItemLeave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemLeave.setText("Leave Room");
         jMenuItemLeave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,12 +167,15 @@ public class GUI extends javax.swing.JFrame {
         });
         jMenuRoom.add(jMenuItemLeave);
 
+        jMenuItemNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemNew.setText("New Room");
         jMenuRoom.add(jMenuItemNew);
 
+        jMenuItemJoin.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemJoin.setText("Join Room");
         jMenuRoom.add(jMenuItemJoin);
 
+        jMenuItemEdit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemEdit.setText("Edit Room Name");
         jMenuRoom.add(jMenuItemEdit);
 
@@ -292,6 +305,7 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnSend;
     private javax.swing.JButton jBtnUpload;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLblUsers;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEmoji;
