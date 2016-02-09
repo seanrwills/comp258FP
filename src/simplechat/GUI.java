@@ -115,6 +115,11 @@ public class GUI extends javax.swing.JFrame {
 
         jBtnSend.setText("Send");
         jBtnSend.setToolTipText("");
+        jBtnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSendActionPerformed(evt);
+            }
+        });
 
         jBtnUpload.setBackground(new java.awt.Color(189, 10, 252));
         jBtnUpload.setText("Upload File");
@@ -266,6 +271,10 @@ public class GUI extends javax.swing.JFrame {
     private void jMenuItemLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeaveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemLeaveActionPerformed
+
+    private void jBtnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSendActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnSendActionPerformed
 
     /**
      * @param args the command line arguments

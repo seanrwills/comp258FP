@@ -38,8 +38,7 @@ public class EchoServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
       String message = msg.toString();
       if(message.charAt(0)=='#'){
@@ -48,7 +47,6 @@ public class EchoServer extends AbstractServer
               //clientDisconnected(client);
           } 
           else if(message.indexOf("#setUser")==0){
-          
           int space = message.indexOf(" ");
           int end = message.length();
           String user = message.substring(space, end);
@@ -56,7 +54,7 @@ public class EchoServer extends AbstractServer
           client.setInfo("username", user);
          }
           else if(message.indexOf("#who")==0){
-            sendClientList(client);
+          sendClientList(client);
           }
           else if(message.indexOf("#join")==0){
             int space = message.indexOf(" ");
@@ -76,6 +74,9 @@ public class EchoServer extends AbstractServer
             whisper = whisper.trim();
             sendToAClient(whisper,client,target); 
           } 
+          else if(message.indexOf("#userList") == 0){
+            sendClientList(client);
+          }
           
           
       }
@@ -177,8 +178,7 @@ public class EchoServer extends AbstractServer
      Thread[] clientThreadList = getClientConnections();
      String[] userList = new String[clientThreadList.length];
      for (int i=0; i<clientThreadList.length; i++){
-         String aUser = ((ConnectionToClient)clientThreadList[i])
-                 .getInfo("username").toString();
+         String aUser = ((ConnectionToClient)clientThreadList[i]).getInfo("username").toString();
          userList[i] = aUser;
      }
      Envelope e = new Envelope("userList", userList);
@@ -200,7 +200,8 @@ public class EchoServer extends AbstractServer
    */
   
  protected void clientConnected(ConnectionToClient client) {
-         System.out.println(client+" has connected.");  
+         System.out.println(client+" has connected.");
+         //send clent list to all clients on new connection
  }
 
   /**
