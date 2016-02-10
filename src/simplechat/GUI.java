@@ -1,5 +1,8 @@
 package simplechat;
-
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,6 +35,7 @@ public class GUI extends javax.swing.JFrame {
         scrollbar3 = new java.awt.Scrollbar();
         scrollbar4 = new java.awt.Scrollbar();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        fileChooser = new javax.swing.JFileChooser();
         jTextChat = new javax.swing.JTextField();
         jPanelUsers = new javax.swing.JPanel();
         scrollbarUsers = new java.awt.Scrollbar();
@@ -40,6 +44,8 @@ public class GUI extends javax.swing.JFrame {
         scrollbarChat = new java.awt.Scrollbar();
         jBtnSend = new javax.swing.JButton();
         jBtnUpload = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
@@ -70,7 +76,10 @@ public class GUI extends javax.swing.JFrame {
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
+        fileChooser.setDialogTitle("BIS Messenger FIle Upload");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BIS Messenger");
 
         jTextChat.setText("jTextInputText");
         jTextChat.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +119,7 @@ public class GUI extends javax.swing.JFrame {
         );
         jPanelChatLayout.setVerticalGroup(
             jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollbarChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrollbarChat, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
         );
 
         jBtnSend.setText("Send");
@@ -123,6 +132,15 @@ public class GUI extends javax.swing.JFrame {
 
         jBtnUpload.setBackground(new java.awt.Color(189, 10, 252));
         jBtnUpload.setText("Upload File");
+        jBtnUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUploadActionPerformed(evt);
+            }
+        });
+
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane1.setViewportView(textArea);
 
         jMenuBar.setBackground(new java.awt.Color(151, 0, 204));
         jMenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -238,7 +256,9 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jBtnUpload)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanelUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -248,7 +268,11 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,6 +299,21 @@ public class GUI extends javax.swing.JFrame {
     private void jBtnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSendActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnSendActionPerformed
+//Upload button click event
+    private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
+        int returnVal = fileChooser.showOpenDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        try {
+          //What to do with the file, e.g. display it in a TextArea
+          textArea.read( new FileReader( file.getAbsolutePath() ), null );
+        } catch (IOException ex) {
+          System.out.println("problem accessing file"+file.getAbsolutePath());
+        }
+    } else {
+        System.out.println("File access cancelled by user.");
+    }
+    }//GEN-LAST:event_jBtnUploadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,6 +351,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jBtnSend;
     private javax.swing.JButton jBtnUpload;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
@@ -343,10 +383,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSend;
     private javax.swing.JPanel jPanelChat;
     private javax.swing.JPanel jPanelUsers;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextChat;
     private java.awt.Scrollbar scrollbar3;
     private java.awt.Scrollbar scrollbar4;
     private java.awt.Scrollbar scrollbarChat;
     private java.awt.Scrollbar scrollbarUsers;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
