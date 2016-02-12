@@ -202,6 +202,23 @@ public class EchoServer extends AbstractServer
      }
  }
 
+   public void sendUserListToAllClients()
+  {
+    Thread[] clientThreadList = getClientConnections();
+    String[] userList = new String[clientThreadList.length];
+    Envelope e = new Envelope("userList", userList);
+    
+    for (int i=0; i<clientThreadList.length; i++)
+    {
+      try
+      {
+        ((ConnectionToClient)clientThreadList[i]).sendToClient(e);
+      }
+      catch (Exception ex) {}
+    }
+  }
+ 
+ 
   //Class methods ***************************************************
   
   /**
@@ -213,6 +230,10 @@ public class EchoServer extends AbstractServer
    */
   
  protected void clientConnected(ConnectionToClient client) {
+     
+
+        sendUserListToAllClients();
+
          System.out.println(client+" has connected.");
          //send clent list to all clients on new connection
  }
