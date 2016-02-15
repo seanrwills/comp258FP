@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import static simplechat.ClientConsole.DEFAULT_PORT;
+import javax.swing.JOptionPane;
+
 
 
 public class GUIChat extends javax.swing.JFrame implements ChatIF {
@@ -80,8 +81,14 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BIS Messenger");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        jTextChat.setText("jTextInputText");
+        jTextChat.setText("Enter message");
+        jTextChat.setToolTipText("Enter message here");
         jTextChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextChatActionPerformed(evt);
@@ -342,52 +349,59 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         client.quit();
     }//GEN-LAST:event_jMenuItemExitActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+            client.sendCommandToServer("#quit");
+            client.quit();
+            System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
+
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFileChooser fileChooser;
-    private javax.swing.JButton jBtnSend;
-    private javax.swing.JButton jBtnUpload;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JLabel jLblUsers;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenu jMenuEmoji;
-    private javax.swing.JMenu jMenuFile;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemBroadcast;
-    private javax.swing.JMenuItem jMenuItemChangeUserName;
-    private javax.swing.JMenuItem jMenuItemContact;
-    private javax.swing.JMenuItem jMenuItemCoordinates;
-    private javax.swing.JMenuItem jMenuItemCreateEmoji;
-    private javax.swing.JMenuItem jMenuItemDicPic;
-    private javax.swing.JMenuItem jMenuItemEdit;
-    private javax.swing.JMenuItem jMenuItemExit;
-    private javax.swing.JMenuItem jMenuItemFile;
-    private javax.swing.JMenuItem jMenuItemJoin;
-    private javax.swing.JMenuItem jMenuItemLeave;
-    private javax.swing.JMenuItem jMenuItemMyIP;
-    private javax.swing.JMenuItem jMenuItemNew;
-    private javax.swing.JMenuItem jMenuItemPicture;
-    private javax.swing.JMenuItem jMenuItemPingChatroom;
-    private javax.swing.JMenuItem jMenuItemPingContact;
-    private javax.swing.JMenuItem jMenuItemPrivateMessage;
-    private javax.swing.JMenuItem jMenuItemSendEmoji;
-    private javax.swing.JMenu jMenuMessaging;
-    private javax.swing.JMenu jMenuRoom;
-    private javax.swing.JMenu jMenuSend;
-    private javax.swing.JPanel jPanelChat;
-    private javax.swing.JPanel jPanelUsers;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextChat;
-    private java.awt.Scrollbar scrollbar3;
-    private java.awt.Scrollbar scrollbar4;
-    private java.awt.Scrollbar scrollbarChat;
-    private java.awt.Scrollbar scrollbarUsers;
-    private javax.swing.JTextArea textArea;
+    javax.swing.JFileChooser fileChooser;
+    javax.swing.JButton jBtnSend;
+    javax.swing.JButton jBtnUpload;
+    javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    javax.swing.JLabel jLblUsers;
+    javax.swing.JList jList1;
+    javax.swing.JList jList2;
+    javax.swing.JMenuBar jMenuBar;
+    javax.swing.JMenu jMenuEmoji;
+    javax.swing.JMenu jMenuFile;
+    javax.swing.JMenuItem jMenuItem1;
+    javax.swing.JMenuItem jMenuItemBroadcast;
+    javax.swing.JMenuItem jMenuItemChangeUserName;
+    javax.swing.JMenuItem jMenuItemContact;
+    javax.swing.JMenuItem jMenuItemCoordinates;
+    javax.swing.JMenuItem jMenuItemCreateEmoji;
+    javax.swing.JMenuItem jMenuItemDicPic;
+    javax.swing.JMenuItem jMenuItemEdit;
+    javax.swing.JMenuItem jMenuItemExit;
+    javax.swing.JMenuItem jMenuItemFile;
+    javax.swing.JMenuItem jMenuItemJoin;
+    javax.swing.JMenuItem jMenuItemLeave;
+    javax.swing.JMenuItem jMenuItemMyIP;
+    javax.swing.JMenuItem jMenuItemNew;
+    javax.swing.JMenuItem jMenuItemPicture;
+    javax.swing.JMenuItem jMenuItemPingChatroom;
+    javax.swing.JMenuItem jMenuItemPingContact;
+    javax.swing.JMenuItem jMenuItemPrivateMessage;
+    javax.swing.JMenuItem jMenuItemSendEmoji;
+    javax.swing.JMenu jMenuMessaging;
+    javax.swing.JMenu jMenuRoom;
+    javax.swing.JMenu jMenuSend;
+    javax.swing.JPanel jPanelChat;
+    javax.swing.JPanel jPanelUsers;
+    javax.swing.JScrollPane jScrollPane1;
+    javax.swing.JScrollPane jScrollPane2;
+    javax.swing.JScrollPane jScrollPane3;
+    javax.swing.JTextField jTextChat;
+    java.awt.Scrollbar scrollbar3;
+    java.awt.Scrollbar scrollbar4;
+    java.awt.Scrollbar scrollbarChat;
+    java.awt.Scrollbar scrollbarUsers;
+    javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
     private ChatClient client;
  
@@ -400,6 +414,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         initComponents();
         setVisible(true);
         
+
         try 
         {
             client = new ChatClient(host, port, this, user);
@@ -416,36 +431,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new GUIChat().setVisible(true);
-//            }
-//        });
+    
         String user = "";  
         String host = "";
         int port = 0;  //The port number
@@ -479,4 +465,5 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     public void send(String msg){
         client.handleMessageFromClientUI(msg);
     }
+  
 }
