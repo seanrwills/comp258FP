@@ -171,6 +171,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItemExit.setText("Exit");
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExitActionPerformed(evt);
+            }
+        });
         jMenuFile.add(jMenuItemExit);
 
         jMenuItemChangeUserName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
@@ -305,7 +310,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jTextChatActionPerformed
 
     private void jMenuFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFileActionPerformed
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_jMenuFileActionPerformed
 
     private void jMenuItemLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeaveActionPerformed
@@ -313,16 +318,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jMenuItemLeaveActionPerformed
 
     private void jBtnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSendActionPerformed
-        // TODO add your handling code here:
-        //An anonymous inner class
-        //How a lot of event hadlers are assigned in GUIs
-        //jBtnSend.jBtnSendActionPerformed( new ActionListener() {
-        //    public void actionPerformed(ActionEvent e)
-            {
-		send(jTextChat.getText()+"\n");
-            }
-        //});
-        
+        send(jTextChat.getText()+"\n");
     }//GEN-LAST:event_jBtnSendActionPerformed
 //Upload button click event
     private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
@@ -337,12 +333,16 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         }
     } else {
         System.out.println("File access cancelled by user.");
-    }
+      }
     }//GEN-LAST:event_jBtnUploadActionPerformed
 
-     
-    
-    
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
+        // TODO add your handling code here:
+        client.sendCommandToServer("#quit");
+        client.quit();
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
+
+
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser fileChooser;
@@ -469,7 +469,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         }
 
         GUIChat gc = new GUIChat(host, port, user);
-        
     }
    
     @Override
