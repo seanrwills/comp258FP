@@ -1,6 +1,5 @@
 package simplechat;
 
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -264,7 +263,6 @@ public class GUIStart extends javax.swing.JFrame implements ChatIF {
         }
         
         GUIStart gs = new GUIStart(host, port, user);
-        
         }
             
     public void handleUserList(String[] list){

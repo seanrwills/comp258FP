@@ -1,19 +1,16 @@
 package simplechat;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-
+import static simplechat.ClientConsole.DEFAULT_PORT;
 
 
 public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
-    public GUIStart guiStart;
+    //public GUIStart guiStart;
     
-    public GUIChat() {
-        initComponents();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -317,6 +314,15 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
     private void jBtnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSendActionPerformed
         // TODO add your handling code here:
+        //An anonymous inner class
+        //How a lot of event hadlers are assigned in GUIs
+        //jBtnSend.jBtnSendActionPerformed( new ActionListener() {
+        //    public void actionPerformed(ActionEvent e)
+            {
+		send(jTextChat.getText()+"\n");
+            }
+        //});
+        
     }//GEN-LAST:event_jBtnSendActionPerformed
 //Upload button click event
     private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
@@ -334,42 +340,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }
     }//GEN-LAST:event_jBtnUploadActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIChat().setVisible(true);
-            }
-        });
-    }
-    private ChatClient client;
+     
+    
+    
+    final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jBtnSend;
@@ -415,9 +389,95 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private java.awt.Scrollbar scrollbarUsers;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
+    private ChatClient client;
+ 
+    
+    public GUIChat() {
+        initComponents();
+    }
 
+    public GUIChat(String host, int port, String user){
+        initComponents();
+        setVisible(true);
+        
+        try 
+        {
+            client = new ChatClient(host, port, this, user);
+        } 
+        catch(IOException exception) 
+        {
+            System.out.println("Error: Can't setup connection!"
+                + " Terminating client.");
+            System.exit(1);
+        }
+    }
+    
+     /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GUIChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new GUIChat().setVisible(true);
+//            }
+//        });
+        String user = "";  
+        String host = "";
+        int port = 0;  //The port number
+        
+        try {
+            host = args[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            host ="localhost";
+        }
+        
+        try {
+            port = Integer.parseInt(args[1]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            port=DEFAULT_PORT;
+        }
+        
+        try {
+            user = args[2];
+        } catch (Exception e) {
+            user = "guest";
+        }
+
+        GUIChat gc = new GUIChat(host, port, user);
+        
+    }
+   
     @Override
     public void display(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        textArea.insert(message, 0);
+    }
+    
+    public void send(String msg){
+        client.handleMessageFromClientUI(msg);
     }
 }
