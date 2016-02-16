@@ -52,6 +52,7 @@ public class EchoServer extends AbstractServer
           String user = message.substring(space, end);
           user.trim();
           client.setInfo("username", user);
+          sendUserListToAllClients();
          }
           else if(message.indexOf("#who")==0){
           sendClientList(client);
@@ -62,6 +63,7 @@ public class EchoServer extends AbstractServer
             String room = message.substring(space, end);
             room.trim();
             client.setInfo("room", room);
+            sendRoomListToAllClients();
           }
           else if(message.indexOf("#pm")==0){
             int start = message.indexOf(" ");
@@ -206,7 +208,18 @@ public class EchoServer extends AbstractServer
   {
     Thread[] clientThreadList = getClientConnections();
     String[] userList = new String[clientThreadList.length];
-    Envelope e = new Envelope("userList", userList);
+   
+    
+    for (int i=0; i<clientThreadList.length; i++)
+    {
+      try
+      {
+        userList[i]=((ConnectionToClient)clientThreadList[i]).getInfo("username").toString();
+      }
+      catch (Exception ex) {}
+    }
+    
+     Envelope e = new Envelope("userList", userList);
     
     for (int i=0; i<clientThreadList.length; i++)
     {
@@ -230,7 +243,6 @@ public class EchoServer extends AbstractServer
    */
   
  protected void clientConnected(ConnectionToClient client) {
-         sendUserListToAllClients();
          System.out.println(client+" has connected.");
          //send clent list to all clients on new connection
  }
@@ -282,5 +294,26 @@ public class EchoServer extends AbstractServer
     
     
   }
-}
+
+    private void sendRoomListToAllClients() {
+        
+       String[] roomList = new String[10];
+        
+       
+        
+       Thread[] clientThreadList = getClientConnections();
+       String[] userList = new String[clientThreadList.length];
+   
+    
+    for (int i=0; i<clientThreadList.length; i++)
+    {
+      try
+      {
+        //((ConnectionToClient)clientThreadList[i]).sendToClient(e);
+      }
+      catch (Exception ex) {}
+    }
+  }
+ }
+
 //End of EchoServer class

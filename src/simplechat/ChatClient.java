@@ -74,6 +74,11 @@ public class ChatClient extends AbstractClient
       if (e.getKey().equals("userList")) {
           String[] userList = (String[])e.getData();
           ((GUIChat)clientUI).display(userList);
+      }
+      
+      else if (e.getKey().equals("userRoom")) {
+          String[] userRoom = (String[])e.getData();
+          ((GUIChat)clientUI).display(userRoom);
           
       }
   }

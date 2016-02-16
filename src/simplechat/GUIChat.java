@@ -3,9 +3,9 @@ package simplechat;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 
 
 
@@ -462,7 +462,17 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }
     
     public void display(String[] userList) {
-        lstUsers = new JList(userList);    
+        
+        DefaultListModel model = new DefaultListModel();
+        for(int i=0; i< userList.length;i++){
+            model.addElement(userList[i]);
+            System.out.println("Adding users " +userList[i]);
+        }
+        
+        
+        System.out.println("Adding users");
+        lstUsers.setModel(model);
+        
     }
     
     public void send(String msg){
