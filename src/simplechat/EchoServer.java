@@ -230,6 +230,7 @@ public class EchoServer extends AbstractServer
    */
   
  protected void clientConnected(ConnectionToClient client) {
+         sendUserListToAllClients();
          System.out.println(client+" has connected.");
          //send clent list to all clients on new connection
  }

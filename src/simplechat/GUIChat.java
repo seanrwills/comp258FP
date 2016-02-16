@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 
@@ -30,12 +31,12 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jList1 = new javax.swing.JList();
         jTextChat = new javax.swing.JTextField();
         jPanelUsers = new javax.swing.JPanel();
-        scrollbarUsers = new java.awt.Scrollbar();
         jLblUsers = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jPanelChat = new javax.swing.JPanel();
-        scrollbarChat = new java.awt.Scrollbar();
+        lstUsers = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstRooms = new javax.swing.JList();
         jBtnSend = new javax.swing.JButton();
         jBtnUpload = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -97,52 +98,53 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jLblUsers.setText("Users");
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
+        lstUsers.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(jList2);
+        jScrollPane3.setViewportView(lstUsers);
+
+        jLabel1.setText("Rooms");
+
+        lstRooms.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(lstRooms);
 
         javax.swing.GroupLayout jPanelUsersLayout = new javax.swing.GroupLayout(jPanelUsers);
         jPanelUsers.setLayout(jPanelUsersLayout);
         jPanelUsersLayout.setHorizontalGroup(
             jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
+            .addGroup(jPanelUsersLayout.createSequentialGroup()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jLblUsers)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE))
+                        .addComponent(jLblUsers))
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(scrollbarUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4)
+                    .addComponent(jScrollPane3))
+                .addGap(26, 26, 26))
         );
         jPanelUsersLayout.setVerticalGroup(
             jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsersLayout.createSequentialGroup()
-                .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scrollbarUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addComponent(jLblUsers)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3)))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanelChatLayout = new javax.swing.GroupLayout(jPanelChat);
-        jPanelChat.setLayout(jPanelChatLayout);
-        jPanelChatLayout.setHorizontalGroup(
-            jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelChatLayout.createSequentialGroup()
-                .addGap(0, 435, Short.MAX_VALUE)
-                .addComponent(scrollbarChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanelChatLayout.setVerticalGroup(
-            jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollbarChat, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addComponent(jLblUsers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4)
+                .addContainerGap())
         );
 
         jBtnSend.setText("Send");
@@ -282,13 +284,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                         .addComponent(jBtnSend)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnUpload)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 214, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanelChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -297,10 +297,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -363,9 +362,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JButton jBtnSend;
     javax.swing.JButton jBtnUpload;
     javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLblUsers;
     javax.swing.JList jList1;
-    javax.swing.JList jList2;
     javax.swing.JMenuBar jMenuBar;
     javax.swing.JMenu jMenuEmoji;
     javax.swing.JMenu jMenuFile;
@@ -391,16 +390,16 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JMenu jMenuMessaging;
     javax.swing.JMenu jMenuRoom;
     javax.swing.JMenu jMenuSend;
-    javax.swing.JPanel jPanelChat;
     javax.swing.JPanel jPanelUsers;
     javax.swing.JScrollPane jScrollPane1;
     javax.swing.JScrollPane jScrollPane2;
     javax.swing.JScrollPane jScrollPane3;
+    javax.swing.JScrollPane jScrollPane4;
     javax.swing.JTextField jTextChat;
+    javax.swing.JList lstRooms;
+    javax.swing.JList lstUsers;
     java.awt.Scrollbar scrollbar3;
     java.awt.Scrollbar scrollbar4;
-    java.awt.Scrollbar scrollbarChat;
-    java.awt.Scrollbar scrollbarUsers;
     javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
     private ChatClient client;
@@ -460,6 +459,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     @Override
     public void display(String message) {
         textArea.insert(message, 0);
+    }
+    
+    public void display(String[] userList) {
+        lstUsers = new JList(userList);    
     }
     
     public void send(String msg){

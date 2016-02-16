@@ -1,3 +1,4 @@
+//DO NOT USE
 package simplechat;
 
 import java.io.*;
