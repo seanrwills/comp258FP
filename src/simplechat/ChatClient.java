@@ -73,12 +73,13 @@ public class ChatClient extends AbstractClient
   public void handleEnvelopeFromServer(Envelope e){
       if (e.getKey().equals("userList")) {
           String[] userList = (String[])e.getData();
-          ((GUIChat)clientUI).display(userList);
+          ((GUIChat)clientUI).displayUserList(userList);
       }
       
-      else if (e.getKey().equals("userRoom")) {
+      else if (e.getKey().equals("room")) {
+          
           String[] userRoom = (String[])e.getData();
-          ((GUIChat)clientUI).display(userRoom);
+          ((GUIChat)clientUI).displayRoomList(userRoom);
           
       }
   }

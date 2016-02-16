@@ -297,23 +297,30 @@ public class EchoServer extends AbstractServer
 
     private void sendRoomListToAllClients() {
         
-       String[] roomList = new String[10];
-        
-       
-        
-       Thread[] clientThreadList = getClientConnections();
-       String[] userList = new String[clientThreadList.length];
+    Thread[] clientThreadList = getClientConnections();
+    String[] roomList = new String[clientThreadList.length];
    
     
     for (int i=0; i<clientThreadList.length; i++)
     {
       try
       {
-        //((ConnectionToClient)clientThreadList[i]).sendToClient(e);
+        roomList[i]=((ConnectionToClient)clientThreadList[i]).getInfo("room").toString();
       }
       catch (Exception ex) {}
     }
-  }
+    
+     Envelope e = new Envelope("room", roomList);
+    
+    for (int i=0; i<clientThreadList.length; i++)
+    {
+      try
+      {
+        ((ConnectionToClient)clientThreadList[i]).sendToClient(e);
+      }
+      catch (Exception ex) {}
+    }
+    }
  }
 
 //End of EchoServer class

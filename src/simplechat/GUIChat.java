@@ -461,7 +461,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         textArea.insert(message, 0);
     }
     
-    public void display(String[] userList) {
+    public void displayUserList(String[] userList) {
         
         DefaultListModel model = new DefaultListModel();
         for(int i=0; i< userList.length;i++){
@@ -472,6 +472,33 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         
         System.out.println("Adding users");
         lstUsers.setModel(model);
+        
+    }
+    
+    public void displayRoomList(String[] roomList) {
+        
+        DefaultListModel model = new DefaultListModel();
+        String[] goodList = new String[roomList.length];
+        for (int i = 0; 1 < roomList.length; i++){
+           for (int x = 0; 1 < goodList.length; x++){
+            if (roomList[i] == goodList[x]){
+               goodList[x] = roomList[i] + "|"; 
+            }
+ //           else{
+ //               goodList[x] = roomList[i];
+//            }
+           } 
+        }
+        
+        for(int i=0; i< roomList.length;i++){
+            
+            model.addElement(goodList[i]);
+            System.out.println("Adding room " +goodList[i]);
+        }
+        
+        
+        System.out.println("Adding users");
+        lstRooms.setModel(model);
         
     }
     
