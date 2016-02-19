@@ -477,29 +477,20 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     
     public void displayRoomList(String[] roomList) {
         
+        String[] temp = new String[roomList.length];
         DefaultListModel model = new DefaultListModel();
-        String[] goodList = new String[roomList.length];
-        for (int i = 0; 1 < roomList.length; i++){
-           for (int x = 0; 1 < goodList.length; x++){
-            if (roomList[i] == goodList[x]){
-               goodList[x] = roomList[i] + "|"; 
-            }
- //           else{
- //               goodList[x] = roomList[i];
-//            }
-           } 
-        }
-        
         for(int i=0; i< roomList.length;i++){
-            
-            model.addElement(goodList[i]);
-            System.out.println("Adding room " +goodList[i]);
+            boolean found = false;
+            for (int j = 0; j < temp.length; j++) {
+                if(temp[j].equals(roomList[i])){
+                    temp[j] = roomList[i];
+                    model.addElement(temp[j]);
+                    found = true;
+                }
+            }
         }
-        
-        
         System.out.println("Adding users");
-        lstRooms.setModel(model);
-        
+        lstRooms.setModel(model); 
     }
     
     public void send(String msg){
