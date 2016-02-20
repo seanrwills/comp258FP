@@ -5,17 +5,53 @@
  */
 package simplechat;
 
+import static simplechat.GUIChat.DEFAULT_PORT;
+
 /**
  *
  * @author kumar9389
  */
 public class GUICreateRoom extends javax.swing.JPanel {
 
+    
     /**
      * Creates new form GUICreateRoom
      */
+    public GUICreateRoom(ChatClient ExistingClient){
+    
+        ChatClient client = ExistingClient;
+    
+    }
+    
     public GUICreateRoom() {
         initComponents();
+    }
+    
+    public static void main(String args[]) {
+    
+        String user = "";  
+        String host = "";
+        int port = 0;  //The port number
+        
+        try {
+            host = args[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            host ="localhost";
+        }
+        
+        try {
+            port = Integer.parseInt(args[1]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            port=DEFAULT_PORT;
+        }
+        
+        try {
+            user = args[2];
+        } catch (Exception e) {
+            user = "guest";
+        }
+
+        GUIChat gc = new GUIChat(host, port, user);
     }
 
     /**
@@ -28,30 +64,30 @@ public class GUICreateRoom extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        txtRoomName = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtPassword = new javax.swing.JTextPane();
+        lblRoomName = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        btnOk = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(txtRoomName);
 
-        jScrollPane2.setViewportView(jTextPane2);
+        jScrollPane2.setViewportView(txtPassword);
 
-        jLabel1.setText("Room Name:");
+        lblRoomName.setText("Room Name:");
 
-        jLabel2.setText("Password:");
+        lblPassword.setText("Password:");
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnOk.setText("OK");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnOkActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel");
+        btnCancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -61,17 +97,17 @@ public class GUICreateRoom extends javax.swing.JPanel {
                 .addGap(30, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblRoomName)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblPassword)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnOk)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2))
+                                .addComponent(btnCancel))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(161, Short.MAX_VALUE))
         );
@@ -81,33 +117,35 @@ public class GUICreateRoom extends javax.swing.JPanel {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lblRoomName))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(lblPassword))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnOk)
+                    .addComponent(btnCancel))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
 
+        client.sendCommandToServer("#join " + txtRoomName.getText());
        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnOkActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOk;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblRoomName;
+    private javax.swing.JTextPane txtPassword;
+    private javax.swing.JTextPane txtRoomName;
     // End of variables declaration//GEN-END:variables
+    ChatClient client;
 }

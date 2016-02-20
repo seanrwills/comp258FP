@@ -11,6 +11,8 @@ import javax.swing.JList;
 
 public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
+    int i = 0;
+    
     //public GUIStart guiStart;
     
     /**
@@ -51,9 +53,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuItemPingContact = new javax.swing.JMenuItem();
         jMenuRoom = new javax.swing.JMenu();
         jMenuItemLeave = new javax.swing.JMenuItem();
-        jMenuItemNew = new javax.swing.JMenuItem();
-        jMenuItemJoin = new javax.swing.JMenuItem();
-        jMenuItemEdit = new javax.swing.JMenuItem();
+        jMenuItemNewRoom = new javax.swing.JMenuItem();
+        jMenuItemJoinRoom = new javax.swing.JMenuItem();
+        jMenuItemEditRoomName = new javax.swing.JMenuItem();
         jMenuSend = new javax.swing.JMenu();
         jMenuItemBroadcast = new javax.swing.JMenuItem();
         jMenuItemPicture = new javax.swing.JMenuItem();
@@ -88,7 +90,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             }
         });
 
-        jTextChat.setText("Enter message");
         jTextChat.setToolTipText("Enter message here");
         jTextChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +127,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -220,17 +221,22 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         });
         jMenuRoom.add(jMenuItemLeave);
 
-        jMenuItemNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemNew.setText("New Room");
-        jMenuRoom.add(jMenuItemNew);
+        jMenuItemNewRoom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemNewRoom.setText("New Room");
+        jMenuItemNewRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemNewRoomActionPerformed(evt);
+            }
+        });
+        jMenuRoom.add(jMenuItemNewRoom);
 
-        jMenuItemJoin.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemJoin.setText("Join Room");
-        jMenuRoom.add(jMenuItemJoin);
+        jMenuItemJoinRoom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemJoinRoom.setText("Join Room");
+        jMenuRoom.add(jMenuItemJoinRoom);
 
-        jMenuItemEdit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemEdit.setText("Edit Room Name");
-        jMenuRoom.add(jMenuItemEdit);
+        jMenuItemEditRoomName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemEditRoomName.setText("Edit Room Name");
+        jMenuRoom.add(jMenuItemEditRoomName);
 
         jMenuBar.add(jMenuRoom);
 
@@ -277,19 +283,21 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextChat)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnSend)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextChat, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBtnSend)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnUpload)
-                        .addGap(0, 214, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtnUpload)
+                        .addGap(35, 35, 35))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,6 +363,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             System.exit(0);
     }//GEN-LAST:event_formWindowClosing
 
+    private void jMenuItemNewRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewRoomActionPerformed
+       
+            
+        GUICreateRoom newRoomInfo = new GUICreateRoom(client);
+            
+    }//GEN-LAST:event_jMenuItemNewRoomActionPerformed
+
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -375,13 +390,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JMenuItem jMenuItemCoordinates;
     javax.swing.JMenuItem jMenuItemCreateEmoji;
     javax.swing.JMenuItem jMenuItemDicPic;
-    javax.swing.JMenuItem jMenuItemEdit;
+    javax.swing.JMenuItem jMenuItemEditRoomName;
     javax.swing.JMenuItem jMenuItemExit;
     javax.swing.JMenuItem jMenuItemFile;
-    javax.swing.JMenuItem jMenuItemJoin;
+    javax.swing.JMenuItem jMenuItemJoinRoom;
     javax.swing.JMenuItem jMenuItemLeave;
     javax.swing.JMenuItem jMenuItemMyIP;
-    javax.swing.JMenuItem jMenuItemNew;
+    javax.swing.JMenuItem jMenuItemNewRoom;
     javax.swing.JMenuItem jMenuItemPicture;
     javax.swing.JMenuItem jMenuItemPingChatroom;
     javax.swing.JMenuItem jMenuItemPingContact;
