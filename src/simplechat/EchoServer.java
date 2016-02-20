@@ -2,6 +2,7 @@ package simplechat;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.*;
 
 
 /**
@@ -86,6 +87,11 @@ public class EchoServer extends AbstractServer
           } 
           else if(message.indexOf("#userList") == 0){
             sendClientList(client);
+          }
+          else if(message.indexOf("#ping") == 0){
+          sendToAllClients("☺¡PiNg!☻ \n");
+          Toolkit.getDefaultToolkit().beep();
+          
           }
           
           

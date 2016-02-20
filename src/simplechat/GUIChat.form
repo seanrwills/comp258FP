@@ -85,6 +85,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Change User Name"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemChangeUserNameActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -108,6 +111,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ping Chat Room"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPingChatroomActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPingContact">
               <Properties>
@@ -153,6 +159,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Join Room"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemJoinRoomActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEditRoomName">
               <Properties>

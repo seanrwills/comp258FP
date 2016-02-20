@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 
 
@@ -169,7 +170,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jScrollPane1.setViewportView(textArea);
 
         jMenuBar.setBackground(new java.awt.Color(151, 0, 204));
-        jMenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jMenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         jMenuBar.setForeground(new java.awt.Color(102, 51, 255));
 
         jMenuFile.setText("File");
@@ -190,6 +191,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemChangeUserName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemChangeUserName.setText("Change User Name");
+        jMenuItemChangeUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemChangeUserNameActionPerformed(evt);
+            }
+        });
         jMenuFile.add(jMenuItemChangeUserName);
 
         jMenuBar.add(jMenuFile);
@@ -202,6 +208,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemPingChatroom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPingChatroom.setText("Ping Chat Room");
+        jMenuItemPingChatroom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPingChatroomActionPerformed(evt);
+            }
+        });
         jMenuMessaging.add(jMenuItemPingChatroom);
 
         jMenuItemPingContact.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
@@ -232,6 +243,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemJoinRoom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemJoinRoom.setText("Join Room");
+        jMenuItemJoinRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemJoinRoomActionPerformed(evt);
+            }
+        });
         jMenuRoom.add(jMenuItemJoinRoom);
 
         jMenuItemEditRoomName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
@@ -365,10 +381,27 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
     private void jMenuItemNewRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewRoomActionPerformed
        
-            
-        GUICreateRoom newRoomInfo = new GUICreateRoom(client);
-            
+           String roomName = JOptionPane.showInputDialog("Enter new room name");
+            client.sendCommandToServer("#join " + roomName);
     }//GEN-LAST:event_jMenuItemNewRoomActionPerformed
+
+    private void jMenuItemJoinRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJoinRoomActionPerformed
+        
+        String roomName = JOptionPane.showInputDialog("Enter room name to join");
+        client.sendCommandToServer("#join " + roomName);
+    }//GEN-LAST:event_jMenuItemJoinRoomActionPerformed
+
+    private void jMenuItemChangeUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemChangeUserNameActionPerformed
+        String newUserName = JOptionPane.showInputDialog("Enter New UserName");
+        client.sendCommandToServer("#setUser " + newUserName);
+    }//GEN-LAST:event_jMenuItemChangeUserNameActionPerformed
+
+    private void jMenuItemPingChatroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingChatroomActionPerformed
+       
+        client.sendCommandToServer("#ping");
+
+        
+    }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
 
 
     final public static int DEFAULT_PORT = 5555;
@@ -446,27 +479,56 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
      */
     public static void main(String args[]) {
     
-        String user = "";  
         String host = "";
-        int port = 0;  //The port number
+        int port = 0;
+        String user = "";
+        //String host = JOptionPane.showInputDialog("Enter Ip Address of Server");
+        //The port number
         
-        try {
-            host = args[0];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            host ="localhost";
+        try
+        {
+            user = JOptionPane.showInputDialog("Enter Username");
         }
-        
-        try {
-            port = Integer.parseInt(args[1]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            port=DEFAULT_PORT;
-        }
-        
-        try {
+        catch(Exception e)
+        {
             user = args[2];
-        } catch (Exception e) {
-            user = "guest";
+            e.printStackTrace();
         }
+        
+        try
+        {
+            host = "127.0.0.1";
+        }
+        catch(Exception e)
+        {
+           e.printStackTrace(); 
+        }
+                
+        try
+        {
+            port = 5555;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+//        try {
+//            host = args[0];
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            host ="localhost";
+//        }
+//        
+//        try {
+//            port = Integer.parseInt(args[1]);
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            port=DEFAULT_PORT;
+//        }
+//        
+//        try {
+//            user = args[2];
+//        } catch (Exception e) {
+//            user = "guest";
+//        }
 
         GUIChat gc = new GUIChat(host, port, user);
     }
