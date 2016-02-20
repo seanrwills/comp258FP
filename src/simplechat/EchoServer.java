@@ -1,6 +1,7 @@
 package simplechat;
 
-import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -44,6 +45,12 @@ public class EchoServer extends AbstractServer
       if(message.charAt(0)=='#'){
           if (message.equals("#quit")) {
               clientException(client, new Exception("Client has left"));
+              
+              try {
+                  Thread.sleep(3000);
+              } catch (InterruptedException ex) {
+                  ex.printStackTrace();
+              }
               //clientDisconnected(client);
           } 
           else if(message.indexOf("#setUser")==0){
@@ -55,7 +62,8 @@ public class EchoServer extends AbstractServer
           sendUserListToAllClients();
          }
           else if(message.indexOf("#who")==0){
-          sendClientList(client);
+               sendUserListToAllClients();
+               sendRoomListToAllClients();
           }
           else if(message.indexOf("#join")==0){
             int space = message.indexOf(" ");
@@ -88,7 +96,9 @@ public class EchoServer extends AbstractServer
           i.e. send to a client or all clients in room*/
 //          this.sendToAllClients(client.getInfo("username")+ ":"+msg);
           this.sendToAllClientsInRoom(client.getInfo("username")+ ":"+msg, client);
-      }  
+      } 
+      
+      System.out.println("Made it to the end");
   }
     
   /**
@@ -256,13 +266,14 @@ public class EchoServer extends AbstractServer
    */
   synchronized protected void clientDisconnected(ConnectionToClient client) {
       
-      System.out.println(client+" has disconnected.");
+
+      System.out.println(client+" has disconnected. clientDisconnect");
   }
   
-  synchronized protected void clientException(
-    ConnectionToClient client, Throwable exception) {
+  synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
       
-      System.out.println(client+" has disconnected");
+ 
+      System.out.println(client+" has disconnected. clientException");
   }
  
   public static void main(String[] args) 
