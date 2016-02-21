@@ -123,30 +123,33 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             .addGroup(jPanelUsersLayout.createSequentialGroup()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLblUsers))
+                        .addContainerGap()
+                        .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4)
+                            .addComponent(jScrollPane3)))
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel1)))
-                .addContainerGap(87, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4)
-                    .addComponent(jScrollPane3))
-                .addGap(26, 26, 26))
+                        .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelUsersLayout.createSequentialGroup()
+                                .addGap(56, 56, 56)
+                                .addComponent(jLblUsers))
+                            .addGroup(jPanelUsersLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanelUsersLayout.setVerticalGroup(
             jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsersLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLblUsers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4)
-                .addContainerGap())
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
 
         jBtnSend.setText("Send");
@@ -158,6 +161,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         });
 
         jBtnUpload.setBackground(new java.awt.Color(189, 10, 252));
+        jBtnUpload.setForeground(new java.awt.Color(255, 255, 255));
         jBtnUpload.setText("Upload File");
         jBtnUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,9 +174,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jScrollPane1.setViewportView(textArea);
 
         jMenuBar.setBackground(new java.awt.Color(151, 0, 204));
-        jMenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jMenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenuBar.setForeground(new java.awt.Color(102, 51, 255));
 
+        jMenuFile.setForeground(new java.awt.Color(255, 255, 255));
         jMenuFile.setText("File");
         jMenuFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,6 +205,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuBar.add(jMenuFile);
 
+        jMenuMessaging.setForeground(new java.awt.Color(255, 255, 255));
         jMenuMessaging.setText("Messaging");
 
         jMenuItemPrivateMessage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
@@ -221,6 +227,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuBar.add(jMenuMessaging);
 
+        jMenuRoom.setForeground(new java.awt.Color(255, 255, 255));
         jMenuRoom.setText("Room");
 
         jMenuItemLeave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
@@ -256,6 +263,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuBar.add(jMenuRoom);
 
+        jMenuSend.setForeground(new java.awt.Color(255, 255, 255));
         jMenuSend.setText("Send");
 
         jMenuItemBroadcast.setText("Broadcast");
@@ -281,6 +289,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuBar.add(jMenuSend);
 
+        jMenuEmoji.setForeground(new java.awt.Color(255, 255, 255));
         jMenuEmoji.setText("Emoji");
 
         jMenuItemSendEmoji.setText("Send Emoji");
@@ -311,7 +320,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                         .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(jBtnUpload)
                         .addGap(35, 35, 35))))
         );
@@ -323,7 +332,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 12, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
