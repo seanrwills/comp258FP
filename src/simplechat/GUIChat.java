@@ -367,17 +367,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 //Upload button click event
     private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
         int returnVal = fileChooser.showOpenDialog(this);
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fileChooser.getSelectedFile();
-        try {
-          //What to do with the file, e.g. display it in a TextArea
-          textArea.read( new FileReader( file.getAbsolutePath() ), null );
-        } catch (IOException ex) {
-          System.out.println("problem accessing file"+file.getAbsolutePath());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        String fileLocation = fileChooser.getSelectedFile().toString();
+        String destination = JOptionPane.showInputDialog("Send File", "Enter receiver name:");
+            send("#sendFile "+fileLocation+" "+destination);
         }
-    } else {
-        System.out.println("File access cancelled by user.");
-      }
     }//GEN-LAST:event_jBtnUploadActionPerformed
 
     private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
