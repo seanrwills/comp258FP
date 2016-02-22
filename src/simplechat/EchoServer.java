@@ -89,9 +89,7 @@ public class EchoServer extends AbstractServer
             sendClientList(client);
           }
           else if(message.indexOf("#ping") == 0){
-          sendToAllClients("☺¡PiNg!☻ \n");
-          Toolkit.getDefaultToolkit().beep();
-          
+          sendToAllClients("#ping");
           }
           
           

@@ -1,6 +1,7 @@
 package simplechat;
 
 
+import java.awt.Toolkit;
 import java.io.*;
 
 /**
@@ -59,16 +60,24 @@ public class ChatClient extends AbstractClient
   
   /*Any message from the server will be handled here or 
   will pass through this method. May implementa "whisper"*/
-  public void handleMessageFromServer(Object msg) 
-  {
-    if(msg instanceof Envelope){
-        Envelope e = (Envelope)msg;
-        handleEnvelopeFromServer(e);
+    public void handleMessageFromServer(Object msg) {
+
+        if (msg instanceof Envelope) {
+            Envelope e = (Envelope) msg;
+            handleEnvelopeFromServer(e);
+        } else {
+
+            String message = msg.toString();
+            if (message.charAt(0) == '#') {
+                if (message.equals("#ping")) {
+                    clientUI.display("PING!!!!!");
+                    Toolkit.getDefaultToolkit().beep();
+                } else {
+                    clientUI.display(msg.toString());
+                }
+            }
+        }
     }
-    else{
-        clientUI.display(msg.toString());
-    }
-  }
   
   public void handleEnvelopeFromServer(Envelope e){
       if (e.getKey().equals("userList")) {
