@@ -102,7 +102,6 @@ public class EchoServer extends AbstractServer
           this.sendToAllClientsInRoom(client.getInfo("username")+ ":"+msg, client);
       } 
       
-      System.out.println("Made it to the end");
   }
     
   /**

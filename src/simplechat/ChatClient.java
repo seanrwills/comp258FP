@@ -68,16 +68,17 @@ public class ChatClient extends AbstractClient
         } else {
 
             String message = msg.toString();
-            if (message.charAt(0) == '#') {
+            //if (message.charAt(0) == '#') {
                 if (message.equals("#ping")) {
-                    clientUI.display("PING!!!!!");
+                    
+                    clientUI.display("PING!!!!! \n");
                     Toolkit.getDefaultToolkit().beep();
                 } else {
-                    clientUI.display(msg.toString());
+                    ((GUIChat)clientUI).display(message);
                 }
             }
         }
-    }
+    //}
   
   public void handleEnvelopeFromServer(Envelope e){
       if (e.getKey().equals("userList")) {

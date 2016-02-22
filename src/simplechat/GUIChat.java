@@ -282,6 +282,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuSend.add(jMenuItemMyIP);
 
         jMenuItemDicPic.setText("Dick Pic");
+        jMenuItemDicPic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDicPicActionPerformed(evt);
+            }
+        });
         jMenuSend.add(jMenuItemDicPic);
 
         jMenuItemCoordinates.setText("Coordinates");
@@ -411,6 +416,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         
     }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
+
+    private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemDicPicActionPerformed
 
 
     final public static int DEFAULT_PORT = 5555;

@@ -219,6 +219,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Dick Pic"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDicPicActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCoordinates">
               <Properties>
