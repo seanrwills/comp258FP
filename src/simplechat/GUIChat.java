@@ -5,16 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 
 
 public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
-    int i = 0;
-    
-    //public GUIStart guiStart;
+   //public GUIStart guiStart;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +53,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuItemLeave = new javax.swing.JMenuItem();
         jMenuItemNewRoom = new javax.swing.JMenuItem();
         jMenuItemJoinRoom = new javax.swing.JMenuItem();
-        jMenuItemEditRoomName = new javax.swing.JMenuItem();
         jMenuSend = new javax.swing.JMenu();
         jMenuItemBroadcast = new javax.swing.JMenuItem();
         jMenuItemPicture = new javax.swing.JMenuItem();
@@ -67,7 +63,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuItemCoordinates = new javax.swing.JMenuItem();
         jMenuEmoji = new javax.swing.JMenu();
         jMenuItemSendEmoji = new javax.swing.JMenuItem();
-        jMenuItemCreateEmoji = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -84,7 +79,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jScrollPane2.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("BIS Messenger");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -222,7 +216,12 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuMessaging.add(jMenuItemPingChatroom);
 
         jMenuItemPingContact.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemPingContact.setText(" Ping Contact");
+        jMenuItemPingContact.setText("Ping Contact");
+        jMenuItemPingContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPingContactActionPerformed(evt);
+            }
+        });
         jMenuMessaging.add(jMenuItemPingContact);
 
         jMenuBar.add(jMenuMessaging);
@@ -256,10 +255,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             }
         });
         jMenuRoom.add(jMenuItemJoinRoom);
-
-        jMenuItemEditRoomName.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemEditRoomName.setText("Edit Room Name");
-        jMenuRoom.add(jMenuItemEditRoomName);
 
         jMenuBar.add(jMenuRoom);
 
@@ -299,9 +294,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemSendEmoji.setText("Send Emoji");
         jMenuEmoji.add(jMenuItemSendEmoji);
-
-        jMenuItemCreateEmoji.setText("Create Emoji");
-        jMenuEmoji.add(jMenuItemCreateEmoji);
 
         jMenuBar.add(jMenuEmoji);
 
@@ -418,8 +410,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
 
     private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "You're selfish and disgusting", "Put that away!", JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(rootPane, evt);
     }//GEN-LAST:event_jMenuItemDicPicActionPerformed
+
+    private void jMenuItemPingContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingContactActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemPingContactActionPerformed
 
 
     final public static int DEFAULT_PORT = 5555;
@@ -439,9 +436,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JMenuItem jMenuItemChangeUserName;
     javax.swing.JMenuItem jMenuItemContact;
     javax.swing.JMenuItem jMenuItemCoordinates;
-    javax.swing.JMenuItem jMenuItemCreateEmoji;
     javax.swing.JMenuItem jMenuItemDicPic;
-    javax.swing.JMenuItem jMenuItemEditRoomName;
     javax.swing.JMenuItem jMenuItemExit;
     javax.swing.JMenuItem jMenuItemFile;
     javax.swing.JMenuItem jMenuItemJoinRoom;
@@ -505,7 +500,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         
         try
         {
-            user = JOptionPane.showInputDialog("Enter Username");
+            user = JOptionPane.showInputDialog("Enter user name: ");
         }
         catch(Exception e)
         {
@@ -549,6 +544,8 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 //        }
 
         GUIChat gc = new GUIChat(host, port, user);
+        
+        gc.setTitle("BIS Messenger        User: "+user+"           Room: ");
     }
    
     @Override
