@@ -160,7 +160,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             }
         });
 
-        jBtnUpload.setBackground(new java.awt.Color(189, 10, 252));
+        jBtnUpload.setBackground(new java.awt.Color(151, 0, 204));
         jBtnUpload.setForeground(new java.awt.Color(255, 255, 255));
         jBtnUpload.setText("Upload File");
         jBtnUpload.addActionListener(new java.awt.event.ActionListener() {
@@ -390,18 +390,18 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
     private void jMenuItemNewRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewRoomActionPerformed
        
-           String roomName = JOptionPane.showInputDialog("Enter new room name");
+           String roomName = JOptionPane.showInputDialog("Enter new room name:");
             client.sendCommandToServer("#join " + roomName);
     }//GEN-LAST:event_jMenuItemNewRoomActionPerformed
 
     private void jMenuItemJoinRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJoinRoomActionPerformed
         
-        String roomName = JOptionPane.showInputDialog("Enter room name to join");
+        String roomName = JOptionPane.showInputDialog("Enter room name to join:");
         client.sendCommandToServer("#join " + roomName);
     }//GEN-LAST:event_jMenuItemJoinRoomActionPerformed
 
     private void jMenuItemChangeUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemChangeUserNameActionPerformed
-        String newUserName = JOptionPane.showInputDialog("Enter New UserName");
+        String newUserName = JOptionPane.showInputDialog("Enter new user name:");
         client.sendCommandToServer("#setUser " + newUserName);
     }//GEN-LAST:event_jMenuItemChangeUserNameActionPerformed
 
