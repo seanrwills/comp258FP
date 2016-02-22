@@ -70,7 +70,7 @@ public class ChatClient extends AbstractClient
         } else {
 
             String message = msg.toString();
-            //if (message.charAt(0) == '#') {
+            //if (message.charAt(0) ==  '#') {
                 if (message.equals("#ping")) {
                     
                     clientUI.display("PING!!!!! \n");
@@ -104,7 +104,7 @@ public class ChatClient extends AbstractClient
   public void handleMessageFromClientUI(String message)
   {
     if(message.charAt(0)=='#'){
-        handleClientCommand(message);
+        handleClientCommand(message);    
     }
     
     else{
@@ -137,7 +137,7 @@ public class ChatClient extends AbstractClient
   
   
   //Send file to server
-  public static  void sendFile(int portNo,String fileLocation) throws IOException{
+  public void sendFile(int portNo,String fileLocation) throws IOException{
 
         FileInputStream fileInputStream = null;
         BufferedInputStream bufferedInputStream = null;
@@ -153,7 +153,7 @@ public class ChatClient extends AbstractClient
             try {
                 socket = serverSocket.accept();
                 System.out.println("Accepted connection : " + socket);
-						//connection established successfully
+		//connection established successfully
 
                 //creating object to send file
                 File file = new File(fileLocation);
