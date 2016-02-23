@@ -1,19 +1,15 @@
 package simplechat;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.lang.*;
 
 
 /**
@@ -60,7 +56,7 @@ public class EchoServer extends AbstractServer
                 byte[] fileContents = (byte[]) e.getData();
                 //1.Save to server
                 try {
-                    saveFile(fileName, fileContents, f);
+                    saveFile(fileName, fileContents);
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }
@@ -349,21 +345,15 @@ public class EchoServer extends AbstractServer
     }
     }
     
-    public static void saveFile(String fileName, byte[] fileContents, File file)throws Exception{
+    public static void saveFile(String fileName, byte[] fileContents)throws Exception{
         
-        FileInputStream fis = new FileInputStream(file);
-        //ObjectInputStream ois = new ObjectInputStream(fis);
+
+        //FileUtils.wirteByteArrayToFile(new File("C:\\BISMFileStore\\"+fileName), fileContents);
+        
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
-        //ObjectOutputStream oos = new ObjectOutputStream(fos);
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
-        
-        //No of bytes read in one read() call
-        int bytesRead = 0; 
-        
-        while((bytesRead=fis.read(fileContents))!=-1)
-            bos.write(fileContents, 0, bytesRead); 
-        
-        bos.flush(); 
+        fos.write(fileContents);
+        fos.close();
+  
         System.out.println("File saved successfully!");
     }
     
