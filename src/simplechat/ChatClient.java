@@ -3,6 +3,8 @@ package simplechat;
 
 import java.awt.Toolkit;
 import java.io.*;
+import java.io.File;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -121,6 +123,20 @@ public class ChatClient extends AbstractClient
     }
   }
   
+    public void handleEnvelopeFromClientUI(Envelope e) {
+        if (e.getKey().equals("receiveFile")) {
+            File f = (File) e.getData();
+            String fileLocation = f.getAbsolutePath();
+            try {
+                sendFile(getHost(), getPort(), fileLocation);
+                sendToServer(e);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+    }
+  
   public void sendCommandToServer(String message)
   {
     try
@@ -136,58 +152,70 @@ public class ChatClient extends AbstractClient
   }
   
   
-  //Send file to server
-  public void sendFile(int portNo,String fileLocation) throws IOException{
-
-        FileInputStream fileInputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-
-        OutputStream outputStream = null;
-        ServerSocket serverSocket = null;
-        Socket socket = null;
-
-        //creating connection between sender and receiver
-        try {
-            serverSocket = new ServerSocket(portNo);
-            System.out.println("Waiting for receiver...");
-            try {
-                socket = serverSocket.accept();
-                System.out.println("Accepted connection : " + socket);
-		//connection established successfully
-
-                //creating object to send file
-                File file = new File(fileLocation);
-                byte[] byteArray = new byte[(int) file.length()];
-                fileInputStream = new FileInputStream(file);
-                bufferedInputStream = new BufferedInputStream(fileInputStream);
-                bufferedInputStream.read(byteArray, 0, byteArray.length); // copied file into byteArray
-
-                //sending file through socket
-                outputStream = socket.getOutputStream();
-                System.out.println("Sending " + fileLocation + "( size: " + byteArray.length + " bytes)");
-                outputStream.write(byteArray, 0, byteArray.length);//copying byteArray to socket
-                outputStream.flush();	//flushing socket
-                System.out.println("Done.");//file has been sent
-            } finally {
-                if (bufferedInputStream != null) {
-                    bufferedInputStream.close();
-                }
-                if (outputStream != null) {
-                    bufferedInputStream.close();
-                }
-                if (socket != null) {
-                    socket.close();
-                }
-            }
-        } catch (IOException e) {
-
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            if (serverSocket != null) {
-                serverSocket.close();
-            }
-        }
+ public static void recieveFile(String fileName, int Port)throws Exception{
+        //Initialize socket
+        Socket socket = new Socket(InetAddress.getByName("localhost"), Port);
+        byte[] contents = new byte[10000];
+        
+        //Initialize the FileOutputStream to the output file's full path.
+        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        InputStream is = socket.getInputStream();
+        
+        //No of bytes read in one read() call
+        int bytesRead = 0; 
+        
+        while((bytesRead=is.read(contents))!=-1)
+            bos.write(contents, 0, bytesRead); 
+        
+        bos.flush(); 
+        socket.close(); 
+        
+        System.out.println("File saved successfully!");
+    }
+    
+    
+    public static void sendFile(String ipAddress,int port,String fileLocation) throws IOException{
+       //Initialize Sockets
+        ServerSocket ssock = new ServerSocket(port);
+        Socket socket = ssock.accept();
+        
+        //The InetAddress specification
+        InetAddress IA = InetAddress.getByName(ipAddress); 
+        
+        //Specify the file
+        File file = new File(fileLocation);
+        FileInputStream fis = new FileInputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(fis); 
+          
+        //Get socket's output stream
+        OutputStream os = socket.getOutputStream();
+                
+        //Read File Contents into contents array 
+        byte[] contents;
+        long fileLength = file.length(); 
+        long current = 0;
+         
+        long start = System.nanoTime();
+        while(current!=fileLength){ 
+            int size = 10000;
+            if(fileLength - current >= size)
+                current += size;    
+            else{ 
+                size = (int)(fileLength - current); 
+                current = fileLength;
+            } 
+            contents = new byte[size]; 
+            bis.read(contents, 0, size); 
+            os.write(contents);
+            System.out.print("Sending file ... "+(current*100)/fileLength+"% complete!");
+        }   
+        
+        os.flush(); 
+        //File transfer done. Close the socket connection!
+        socket.close();
+        ssock.close();
+        System.out.println("File sent succesfully!"); 
     }
   
   public void handleClientCommand(String command){

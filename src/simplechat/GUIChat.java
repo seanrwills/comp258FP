@@ -360,10 +360,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-        String fileLocation = fileChooser.getSelectedFile().toString();
-        String destination = JOptionPane.showInputDialog("Enter receiver name:");
-            send("#receiveFile "+fileLocation+" "+destination);
-            
+            //String destination = JOptionPane.showInputDialog("Enter receiver name:");
+            File fileToSend = fileChooser.getSelectedFile();
+            Envelope e = new Envelope("receiveFile", fileToSend);
+            sendEnvelope(e);
         }
     }//GEN-LAST:event_jBtnUploadActionPerformed
 
@@ -579,5 +579,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     public void send(String msg){
         client.handleMessageFromClientUI(msg);
     }
+    
+    public void sendEnvelope(Envelope e){
+        client.handleEnvelopeFromClientUI(e);
+    }
+    
+    
   
 }

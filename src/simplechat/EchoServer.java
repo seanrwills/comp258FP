@@ -1,12 +1,15 @@
 package simplechat;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 
@@ -45,86 +48,78 @@ public class EchoServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient(Object msg, ConnectionToClient client)
-  {
-      String message = msg.toString();
-      if(message.charAt(0)=='#'){
-          if (message.equals("#quit")) {
-              clientException(client, new Exception("Client has left"));
-              
-              try {
-                  Thread.sleep(3000);
-              } catch (InterruptedException ex) {
-                  ex.printStackTrace();
-              }
-              //clientDisconnected(client);
-          } 
-          else if(message.indexOf("#setUser")==0){
-          int space = message.indexOf(" ");
-          int end = message.length();
-          String user = message.substring(space, end);
-          user.trim();
-          client.setInfo("username", user);
-          sendUserListToAllClients();
-         }
-          else if(message.indexOf("#who")==0){
-               sendUserListToAllClients();
-               sendRoomListToAllClients();
-          }
-          else if(message.indexOf("#join")==0){
-            int space = message.indexOf(" ");
-            int end = message.length();
-            String room = message.substring(space, end);
-            room.trim();
-            client.setInfo("room", room);
-            sendRoomListToAllClients();
-          }
-          else if(message.indexOf("#pm")==0){
-            int start = message.indexOf(" ");
-            int end = message.length();
-            String msgWOCommand = message.substring(start, end);
-            int space = msgWOCommand.indexOf(" ");
-            String target = msgWOCommand.substring(0,space);
-            String whisper = msgWOCommand.substring(space, end);
-            target = target.trim();
-            whisper = whisper.trim();
-            sendToAClient(whisper,client,target); 
-          } 
-          
-          else if(message.indexOf("#receiveFile")==0){
-            int start = message.indexOf(" ");
-            int end = message.length();
-            String msgWOCommand = message.substring(start, end);
-            int space = msgWOCommand.indexOf(" ");
-            String filePath = msgWOCommand.substring(0,space);
-            String target = msgWOCommand.substring(space, end);
-            target = target.trim();
-            filePath = filePath.trim();
-            //1.Save to server
-            //receiveFile(target, start, filePath);
-            //2.Send messge to target to download file
-             sendToAClient(filePath,client,target); 
-            //3.Target downloads file (handled from client side)
-          } 
-          
-          else if(message.indexOf("#userList") == 0){
-            sendClientList(client);
-          }
-          else if(message.indexOf("#ping") == 0){
-          sendToAllClients("#ping");
-          }
-          
-          
-      }
-      else{
-          System.out.println("Message received: " + msg + " from " + client.getInfo("username"));
-          /*Good place to insert if statements
+    public void handleMessageFromClient(Object msg, ConnectionToClient client) {
+        if (msg instanceof Envelope) {
+            Envelope e = (Envelope)msg;
+            if (e.getKey().equals("receiveFile")) {
+                File f = (File)e.getData();
+                String fileName = f.getName();
+                //1.Save to server
+                try{
+                    recieveFile(fileName, this.getPort());
+                }
+                catch (IOException io){
+                    io.printStackTrace();;
+                }
+                catch (Exception exc){
+                    exc.printStackTrace();
+                }
+                
+                //receiveFile(target, start, filePath);
+                //2.Send messge to target to download file
+                
+                //3.Target downloads file (handled from client side)
+            }
+        } else {
+            String message = msg.toString();
+            if (message.charAt(0) == '#') {
+                if (message.equals("#quit")) {
+                    clientException(client, new Exception("Client has left"));
+
+                } else if (message.indexOf("#setUser") == 0) {
+                    int space = message.indexOf(" ");
+                    int end = message.length();
+                    String user = message.substring(space, end);
+                    user.trim();
+                    client.setInfo("username", user);
+                    sendUserListToAllClients();
+                } else if (message.indexOf("#who") == 0) {
+                    sendUserListToAllClients();
+                    sendRoomListToAllClients();
+                } else if (message.indexOf("#join") == 0) {
+                    int space = message.indexOf(" ");
+                    int end = message.length();
+                    String room = message.substring(space, end);
+                    room.trim();
+                    client.setInfo("room", room);
+                    sendRoomListToAllClients();
+                } else if (message.indexOf("#pm") == 0) {
+                    int start = message.indexOf(" ");
+                    int end = message.length();
+                    String msgWOCommand = message.substring(start, end);
+                    int space = msgWOCommand.indexOf(" ");
+                    String target = msgWOCommand.substring(0, space);
+                    String whisper = msgWOCommand.substring(space, end);
+                    target = target.trim();
+                    whisper = whisper.trim();
+                    sendToAClient(whisper, client, target);
+                } else if (message.indexOf("#userList") == 0) {
+                    sendClientList(client);
+                } else if (message.indexOf("#ping") == 0) {
+                    sendToAllClients("#ping");
+                }
+
+            } else {
+                System.out.println("Message received: " + msg + " from " + client.getInfo("username"));
+                /*Good place to insert if statements
           i.e. send to a client or all clients in room*/
 //          this.sendToAllClients(client.getInfo("username")+ ":"+msg);
-          this.sendToAllClientsInRoom(client.getInfo("username")+ ":"+msg, client);
-      } 
-      
-  }
+                this.sendToAllClientsInRoom(client.getInfo("username") + ":" + msg, client);
+            }
+
+        }
+
+    }
     
   /**
    * This method overrides the one in the superclass.  Called
@@ -358,50 +353,72 @@ public class EchoServer extends AbstractServer
     }
     }
     
-    public static void receiveFile(String ipAddress,int portNo,String fileLocation) throws IOException
-	{
-
-		int bytesRead=0;
-		int current = 0;
-		FileOutputStream fileOutputStream = null;
-		BufferedOutputStream bufferedOutputStream = null;
-		Socket socket = null;
-		try {
-
-			//creating connection.
-			socket = new Socket(ipAddress,portNo);
-			System.out.println("connected.");
-			
-			// receive file
-			byte [] byteArray  = new byte [6022386];
-                        //I have hard coded size of byteArray, you can send file size from socket before creating this.
-			System.out.println("Please wait downloading file");
-			
-			//reading file from socket
-			InputStream inputStream = socket.getInputStream();
-			fileOutputStream = new FileOutputStream(fileLocation);
-			bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-			bytesRead = inputStream.read(byteArray,0,byteArray.length);//copying file from socket to byteArray
-
-			current = bytesRead;
-			do {
-				bytesRead =inputStream.read(byteArray, current, (byteArray.length-current));
-				if(bytesRead >= 0) current += bytesRead;
-			} while(bytesRead > -1);
-			bufferedOutputStream.write(byteArray, 0 , current);//writing byteArray to file
-			bufferedOutputStream.flush();//flushing buffers
-			
-			System.out.println("File " + fileLocation  + " downloaded ( size: " + current + " bytes read)");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			if (fileOutputStream != null) fileOutputStream.close();
-			if (bufferedOutputStream != null) bufferedOutputStream.close();
-			if (socket != null) socket.close();
-		}
-	}
+    public static void recieveFile(String fileName, int Port)throws Exception{
+        
+        //Initialize socket
+        Socket socket = new Socket();
+        byte[] contents = new byte[10000];
+        
+        //Initialize the FileOutputStream to the output file's full path.
+        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        InputStream is = socket.getInputStream();
+        
+        //No of bytes read in one read() call
+        int bytesRead = 0; 
+        
+        while((bytesRead=is.read(contents))!=-1)
+            bos.write(contents, 0, bytesRead); 
+        
+        bos.flush(); 
+        socket.close(); 
+        
+        System.out.println("File saved successfully!");
+    }
+    
+    
+    public static void sendFile(String ipAddress,int portNo,String fileLocation) throws IOException{
+       //Initialize Sockets
+        ServerSocket ssock = new ServerSocket(portNo);
+        Socket socket = ssock.accept();
+        
+        //The InetAddress specification
+        InetAddress IA = InetAddress.getByName("localhost"); 
+        
+        //Specify the file
+        File file = new File(fileLocation);
+        FileInputStream fis = new FileInputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(fis); 
+          
+        //Get socket's output stream
+        OutputStream os = socket.getOutputStream();
+                
+        //Read File Contents into contents array 
+        byte[] contents;
+        long fileLength = file.length(); 
+        long current = 0;
+         
+        long start = System.nanoTime();
+        while(current!=fileLength){ 
+            int size = 10000;
+            if(fileLength - current >= size)
+                current += size;    
+            else{ 
+                size = (int)(fileLength - current); 
+                current = fileLength;
+            } 
+            contents = new byte[size]; 
+            bis.read(contents, 0, size); 
+            os.write(contents);
+            System.out.print("Sending file ... "+(current*100)/fileLength+"% complete!");
+        }   
+        
+        os.flush(); 
+        //File transfer done. Close the socket connection!
+        socket.close();
+        ssock.close();
+        System.out.println("File sent succesfully!"); 
+    }
     
 }
 
