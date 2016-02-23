@@ -124,17 +124,16 @@ public class ChatClient extends AbstractClient
   }
   
     public void handleEnvelopeFromClientUI(Envelope e) {
-        if (e.getKey().equals("receiveFile")) {
+        if (e.getKey().equals("sendFile")) {
             File f = (File) e.getData();
             String fileLocation = f.getAbsolutePath();
             try {
-                sendFile(getHost(), getPort(), fileLocation);
-                sendToServer(e);
+                Envelope fts = new Envelope(e.getKey(), getFile(fileLocation), f);
+                sendToServer(fts);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
         }
-
     }
   
   public void sendCommandToServer(String message)
@@ -152,16 +151,14 @@ public class ChatClient extends AbstractClient
   }
   
   
- public static void recieveFile(String fileName, int Port)throws Exception{
-        //Initialize socket
-        Socket socket = new Socket(InetAddress.getByName("localhost"), Port);
+ public static void recieveFile(byte[]file)throws Exception{
+        
         byte[] contents = new byte[10000];
         
         //Initialize the FileOutputStream to the output file's full path.
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
-        InputStream is = socket.getInputStream();
-        
+     
         //No of bytes read in one read() call
         int bytesRead = 0; 
         
@@ -175,24 +172,15 @@ public class ChatClient extends AbstractClient
     }
     
     
-    public static void sendFile(String ipAddress,int port,String fileLocation) throws IOException{
-       //Initialize Sockets
-        ServerSocket ssock = new ServerSocket(port);
-        Socket socket = ssock.accept();
-        
-        //The InetAddress specification
-        InetAddress IA = InetAddress.getByName(ipAddress); 
-        
+    public static byte[] getFile(String fileLocation) throws IOException{
+       
         //Specify the file
         File file = new File(fileLocation);
         FileInputStream fis = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(fis); 
-          
-        //Get socket's output stream
-        OutputStream os = socket.getOutputStream();
-                
+             
         //Read File Contents into contents array 
-        byte[] contents;
+        byte[] contents = new byte[(int)file.length()];
         long fileLength = file.length(); 
         long current = 0;
          
@@ -207,15 +195,9 @@ public class ChatClient extends AbstractClient
             } 
             contents = new byte[size]; 
             bis.read(contents, 0, size); 
-            os.write(contents);
-            System.out.print("Sending file ... "+(current*100)/fileLength+"% complete!");
-        }   
-        
-        os.flush(); 
-        //File transfer done. Close the socket connection!
-        socket.close();
-        ssock.close();
-        System.out.println("File sent succesfully!"); 
+       
+        } 
+        return contents;
     }
   
   public void handleClientCommand(String command){

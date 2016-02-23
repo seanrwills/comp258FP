@@ -1,5 +1,6 @@
 package simplechat;
 
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -7,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -51,24 +54,20 @@ public class EchoServer extends AbstractServer
     public void handleMessageFromClient(Object msg, ConnectionToClient client) {
         if (msg instanceof Envelope) {
             Envelope e = (Envelope)msg;
-            if (e.getKey().equals("receiveFile")) {
-                File f = (File)e.getData();
+            if (e.getKey().equals("sendFile")) {
+                File f = e.getFile();
                 String fileName = f.getName();
+                byte[] fileContents = (byte[])e.getData();
                 //1.Save to server
                 try{
-                    recieveFile(fileName, this.getPort());
+                    saveFile(fileName, fileContents);
                 }
-                catch (IOException io){
-                    io.printStackTrace();;
-                }
+                
                 catch (Exception exc){
                     exc.printStackTrace();
                 }
                 
-                //receiveFile(target, start, filePath);
-                //2.Send messge to target to download file
                 
-                //3.Target downloads file (handled from client side)
             }
         } else {
             String message = msg.toString();
@@ -353,26 +352,20 @@ public class EchoServer extends AbstractServer
     }
     }
     
-    public static void recieveFile(String fileName, int Port)throws Exception{
+    public static void saveFile(String fileName, byte[] fileContents)throws Exception{
         
-        //Initialize socket
-        Socket socket = new Socket();
-        byte[] contents = new byte[10000];
-        
-        //Initialize the FileOutputStream to the output file's full path.
+        ObjectInputStream ois = new ObjectInputStream(null);
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
-        InputStream is = socket.getInputStream();
         
         //No of bytes read in one read() call
         int bytesRead = 0; 
         
-        while((bytesRead=is.read(contents))!=-1)
-            bos.write(contents, 0, bytesRead); 
+        while((bytesRead=ois.read(fileContents))!=-1)
+            bos.write(fileContents, 0, bytesRead); 
         
         bos.flush(); 
-        socket.close(); 
-        
         System.out.println("File saved successfully!");
     }
     
