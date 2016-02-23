@@ -33,25 +33,23 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
-  public EchoServer(int port) 
-  {
-    super(port);
-  }
+    public EchoServer(int port) {
+        super(port);
+    }
 
   
-  //Instance methods ************************************************
-  
-  /**
-   * This method handles any messages received from the client.
-   *
-   * @param msg The message received from the client.
-   * @param client The connection from which the message originated.
-   */
+    //Instance methods ************************************************
+    /**
+     * This method handles any messages received from the client.
+     *
+     * @param msg The message received from the client.
+     * @param client The connection from which the message originated.
+     */
     public void handleMessageFromClient(Object msg, ConnectionToClient client) {
         if (msg instanceof Envelope) {
             Envelope e = (Envelope) msg;
             if (e.getKey().equals("sendFile")) {
-                
+
                 File f = e.getFile();
                 String fileName = f.getName();
                 byte[] fileContents = (byte[]) e.getData();
@@ -61,7 +59,6 @@ public class EchoServer extends AbstractServer
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }
-
             }
         } else {
             String message = msg.toString();
@@ -118,85 +115,74 @@ public class EchoServer extends AbstractServer
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.
    */
-  protected void serverStarted()
-  {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
-  }
+    protected void serverStarted() {
+        System.out.println("Server listening for connections on port " + getPort());
+    }
   
   /**
    * This method overrides the one in the superclass.  Called
    * when the server stops listening for connections.
    */
-  protected void serverStopped()
-  {
-    System.out.println
-      ("Server has stopped listening for connections.");
-  }
+    protected void serverStopped() {
+        System.out.println("Server has stopped listening for connections.");
+    }
   
- public void sendToAllClientsInRoom(Object msg, ConnectionToClient client)
-  {
-    Thread[] clientThreadList = getClientConnections();
-    String room = client.getInfo("room").toString();
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-        
-        ConnectionToClient target = ((ConnectionToClient)clientThreadList[i]);
-        String targetRoom = target.getInfo("room").toString();
-        
-        if (room.equals(targetRoom)) {
-            try {
-                target.sendToClient(msg);
-            } 
-            catch (Exception e) {
-                
+    public void sendToAllClientsInRoom(Object msg, ConnectionToClient client) {
+        Thread[] clientThreadList = getClientConnections();
+        String room = client.getInfo("room").toString();
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+
+            ConnectionToClient target = ((ConnectionToClient) clientThreadList[i]);
+            String targetRoom = target.getInfo("room").toString();
+
+            if (room.equals(targetRoom)) {
+                try {
+                    target.sendToClient(msg);
+                } catch (Exception e) {
+
+                }
             }
         }
-      }
-  }
+    }
  
- public void sendToAClient(Object msg, ConnectionToClient client, String pmTarget)
-  {
-         if (msg instanceof Envelope) {
-          Envelope e = (Envelope) msg;
-          
-          String targetRecipient = e.getDestinationUserName();
-          Thread[] clientThreadList = getClientConnections();
-          String fileSender = client.getInfo("username").toString();
-             for (int i = 0; i < clientThreadList.length; i++) {
-                 String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+    public void sendToAClient(Object msg, ConnectionToClient client, String pmTarget) {
+        if (msg instanceof Envelope) {
+            Envelope e = (Envelope) msg;
 
-                 if (fileReceiver.equals(targetRecipient)) {
-                     try {
-                         ((ConnectionToClient) clientThreadList[i]).sendToClient(msg);
-                     } catch (Exception ex) {
-                         ex.printStackTrace();
-                     }
-                 }
-             }
-        
-    }
-    else{
-    Thread[] clientThreadList = getClientConnections();
-    String pmSender = client.getInfo("username").toString();
-    msg = "PM from "+pmSender+": "+msg;
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-       String pmRecipient = ((ConnectionToClient)clientThreadList[i]).getInfo("username").toString();
-       
-       if(pmRecipient.equals(pmTarget)){
-           try {
-                ((ConnectionToClient)clientThreadList[i]).sendToClient(msg);
-            } 
-            catch (Exception e) {
-                e.printStackTrace();
+            String targetRecipient = e.getDestinationUserName();
+            Thread[] clientThreadList = getClientConnections();
+            String fileSender = client.getInfo("username").toString();
+            for (int i = 0; i < clientThreadList.length; i++) {
+                String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                if (fileReceiver.equals(targetRecipient)) {
+                    try {
+                        ((ConnectionToClient) clientThreadList[i]).sendToClient(msg);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
-       }      
-      }
+
+        } else {
+            Thread[] clientThreadList = getClientConnections();
+            String pmSender = client.getInfo("username").toString();
+            msg = "PM from " + pmSender + ": " + msg;
+
+            for (int i = 0; i < clientThreadList.length; i++) {
+                String pmRecipient = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                if (pmRecipient.equals(pmTarget)) {
+                    try {
+                        ((ConnectionToClient) clientThreadList[i]).sendToClient(msg);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
-  }
  
  
  
@@ -213,71 +199,62 @@ public class EchoServer extends AbstractServer
 //     
 // }
  
- public void sendToAClientsInRoom(Object msg, ConnectionToClient client)
-  {
-    Thread[] clientThreadList = getClientConnections();
-    String room = client.getInfo("room").toString();
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-        
-        ConnectionToClient target = ((ConnectionToClient)clientThreadList[i]);
-        String targetRoom = target.getInfo("room").toString();
-        
-        if (room.equals(targetRoom)) {
-            try {
-                target.sendToClient(msg);
-            } 
-            catch (Exception e) {
-                
+    public void sendToAClientsInRoom(Object msg, ConnectionToClient client) {
+        Thread[] clientThreadList = getClientConnections();
+        String room = client.getInfo("room").toString();
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+
+            ConnectionToClient target = ((ConnectionToClient) clientThreadList[i]);
+            String targetRoom = target.getInfo("room").toString();
+
+            if (room.equals(targetRoom)) {
+                try {
+                    target.sendToClient(msg);
+                } catch (Exception e) {
+
+                }
             }
         }
-      }
-  }
+    }
  
- public void sendClientList(ConnectionToClient client){
-     Thread[] clientThreadList = getClientConnections();
-     String[] userList = new String[clientThreadList.length];
-     for (int i=0; i<clientThreadList.length; i++){
-         String aUser = ((ConnectionToClient)clientThreadList[i]).getInfo("username").toString();
-         userList[i] = aUser;
-     }
-     Envelope e = new Envelope("userList", userList);
-     try {
-         client.sendToClient(e);
-     } catch (Exception ex) {
-         System.out.println("Wow, do better next time!");
-     }
- }
+    public void sendClientList(ConnectionToClient client) {
+        Thread[] clientThreadList = getClientConnections();
+        String[] userList = new String[clientThreadList.length];
+        for (int i = 0; i < clientThreadList.length; i++) {
+            String aUser = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+            userList[i] = aUser;
+        }
+        Envelope e = new Envelope("userList", userList);
+        try {
+            client.sendToClient(e);
+        } catch (Exception ex) {
+            System.out.println("Wow, do better next time!");
+        }
+    }
 
-   public void sendUserListToAllClients()
-  {
-    Thread[] clientThreadList = getClientConnections();
-    String[] userList = new String[clientThreadList.length];
-   
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-      try
-      {
-        userList[i]=((ConnectionToClient)clientThreadList[i]).getInfo("username").toString();
-      }
-      catch (Exception ex) {}
+    public void sendUserListToAllClients() {
+        Thread[] clientThreadList = getClientConnections();
+        String[] userList = new String[clientThreadList.length];
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+            try {
+                userList[i] = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+            } catch (Exception ex) {
+            }
+        }
+
+        Envelope e = new Envelope("userList", userList);
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+            try {
+                ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
+            } catch (Exception ex) {
+            }
+        }
     }
-    
-     Envelope e = new Envelope("userList", userList);
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-      try
-      {
-        ((ConnectionToClient)clientThreadList[i]).sendToClient(e);
-      }
-      catch (Exception ex) {}
-    }
-  }
  
- 
+
   //Class methods ***************************************************
   
   /**
@@ -288,95 +265,79 @@ public class EchoServer extends AbstractServer
    *          if no argument is entered.
    */
   
- protected void clientConnected(ConnectionToClient client) {
-         System.out.println(client+" has connected.");
-         //send clent list to all clients on new connection
- }
+    protected void clientConnected(ConnectionToClient client) {
+        System.out.println(client + " has connected.");
+        //send clent list to all clients on new connection
+    }
 
-  /**
-   * Hook method called each time a client disconnects.
-   * The default implementation does nothing. The method
-   * may be overridden by subclasses but should remains synchronized.
-   *
-   * @param client the connection with the client.
-   */
-  synchronized protected void clientDisconnected(ConnectionToClient client) {
-      
+    /**
+     * Hook method called each time a client disconnects. The default
+     * implementation does nothing. The method may be overridden by subclasses
+     * but should remains synchronized.
+     *
+     * @param client the connection with the client.
+     */
+    synchronized protected void clientDisconnected(ConnectionToClient client) {
 
-      System.out.println(client+" has disconnected. clientDisconnect");
-  }
-  
-  synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
-      
+        System.out.println(client + " has disconnected. clientDisconnect");
+    }
+
+    synchronized protected void clientException(ConnectionToClient client, Throwable exception) {
+
+        System.out.println(client + " has disconnected. clientException");
+    }
  
-      System.out.println(client+" has disconnected. clientException");
-  }
- 
-  public static void main(String[] args) 
-  {
-    int port = 0; //Port to listen on
+    public static void main(String[] args) {
+        int port = 0; //Port to listen on
 
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
+        try {
+            port = Integer.parseInt(args[0]); //Get port from command line
+        } catch (Throwable t) {
+            port = DEFAULT_PORT; //Set port to 5555
+
+        }
+
+        EchoServer sv = new EchoServer(port);
+
+        try {
+            sv.listen(); //Start listening for connections
+
+        } catch (Exception ex) {
+            System.out.println("ERROR - Could not listen for clients!");
+        }
+
     }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-      
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    
-    try 
-    {
-      sv.listen(); //Start listening for connections
-     
-     
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
-    
-    
-  }
 
     private void sendRoomListToAllClients() {
-        
-    Thread[] clientThreadList = getClientConnections();
-    String[] roomList = new String[clientThreadList.length];
-   
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-      try
-      {
-        roomList[i]=((ConnectionToClient)clientThreadList[i]).getInfo("room").toString();
-      }
-      catch (Exception ex) {}
+
+        Thread[] clientThreadList = getClientConnections();
+        String[] roomList = new String[clientThreadList.length];
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+            try {
+                roomList[i] = ((ConnectionToClient) clientThreadList[i]).getInfo("room").toString();
+            } catch (Exception ex) {
+            }
+        }
+
+        Envelope e = new Envelope("room", roomList);
+
+        for (int i = 0; i < clientThreadList.length; i++) {
+            try {
+                ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
+            } catch (Exception ex) {
+            }
+        }
     }
     
-     Envelope e = new Envelope("room", roomList);
-    
-    for (int i=0; i<clientThreadList.length; i++)
-    {
-      try
-      {
-        ((ConnectionToClient)clientThreadList[i]).sendToClient(e);
-      }
-      catch (Exception ex) {}
-    }
-    }
-    
-    public static void saveFile(String fileName, byte[] fileContents)throws Exception{
-        
-        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
+    public static void saveFile(String fileName, byte[] fileContents) throws Exception {
+
+        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\" + fileName);
         fos.write(fileContents);
         fos.close();
-  
+
         System.out.println("File saved successfully!");
-    }   
+    }
 }
 
 

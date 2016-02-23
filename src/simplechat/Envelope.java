@@ -26,19 +26,20 @@ public class Envelope implements Serializable {
         this.setKey(key);
         this.setData(data);
     }
-    
-    public Envelope(String key, Object data, File file){
+
+    public Envelope(String key, Object data, File file) {
         this.setKey(key);
         this.setData(data);
         this.setFile(file);
     }
-    
-        public Envelope(String key,File file, String destinationusername){
+
+    public Envelope(String key, File file, String destinationusername) {
         this.setKey(key);
         this.setFile(file);
         this.setDestinationUserName(destinationusername);
     }
-    public Envelope(String key, Object data, File file, String destinationusername){
+
+    public Envelope(String key, Object data, File file, String destinationusername) {
         this.setKey(key);
         this.setData(data);
         this.setFile(file);

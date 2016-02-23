@@ -1,18 +1,14 @@
 package simplechat;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
-
 public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
-   //public GUIStart guiStart;
-    
+    //public GUIStart guiStart;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -334,7 +330,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jTextChatActionPerformed
 
     private void jMenuFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFileActionPerformed
-     
+
     }//GEN-LAST:event_jMenuFileActionPerformed
 
     private void jMenuItemLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeaveActionPerformed
@@ -342,7 +338,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jMenuItemLeaveActionPerformed
 
     private void jBtnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSendActionPerformed
-        send(jTextChat.getText()+"\n");
+        send(jTextChat.getText() + "\n");
     }//GEN-LAST:event_jBtnSendActionPerformed
 //Upload button click event
     private void jBtnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUploadActionPerformed
@@ -351,7 +347,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
             //String destination = JOptionPane.showInputDialog("Enter receiver name:");
             File fileToSend = fileChooser.getSelectedFile();
             String destinationClient = JOptionPane.showInputDialog("Enter Destination Username: ");
-            
+
             Envelope e = new Envelope("sendFile", fileToSend, destinationClient);
             sendEnvelope(e);
         }
@@ -365,19 +361,19 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-            client.sendCommandToServer("#quit");
-            client.quit();
-            System.exit(0);
+        client.sendCommandToServer("#quit");
+        client.quit();
+        System.exit(0);
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItemNewRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewRoomActionPerformed
-       
-           String roomName = JOptionPane.showInputDialog("Enter new room name:");
-            client.sendCommandToServer("#join " + roomName);
+
+        String roomName = JOptionPane.showInputDialog("Enter new room name:");
+        client.sendCommandToServer("#join " + roomName);
     }//GEN-LAST:event_jMenuItemNewRoomActionPerformed
 
     private void jMenuItemJoinRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJoinRoomActionPerformed
-        
+
         String roomName = JOptionPane.showInputDialog("Enter room name to join:");
         client.sendCommandToServer("#join " + roomName);
     }//GEN-LAST:event_jMenuItemJoinRoomActionPerformed
@@ -388,10 +384,10 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     }//GEN-LAST:event_jMenuItemChangeUserNameActionPerformed
 
     private void jMenuItemPingChatroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingChatroomActionPerformed
-       
+
         client.sendCommandToServer("#ping");
 
-        
+
     }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
 
     private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
@@ -402,7 +398,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private void jMenuItemPingContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingContactActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemPingContactActionPerformed
-
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -446,65 +441,51 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
     private ChatClient client;
- 
-    
+
     public GUIChat() {
         initComponents();
     }
 
-    public GUIChat(String host, int port, String user){
+    public GUIChat(String host, int port, String user) {
         initComponents();
         setVisible(true);
-        
 
-        try 
-        {
+        try {
             client = new ChatClient(host, port, this, user);
-        } 
-        catch(IOException exception) 
-        {
+        } catch (IOException exception) {
             System.out.println("Error: Can't setup connection!"
-                + " Terminating client.");
+                    + " Terminating client.");
             System.exit(1);
         }
     }
-    
-     /**
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    
+
         String host = "";
         int port = 0;
         String user = "";
         //String host = JOptionPane.showInputDialog("Enter Ip Address of Server");
         //The port number
-        
-        try
-        {
+
+        try {
             user = JOptionPane.showInputDialog("Enter user name: ");
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             user = args[2];
             e.printStackTrace();
         }
-        
-        try
-        {
+
+        try {
             host = "127.0.0.1";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e)
-        {
-           e.printStackTrace(); 
-        }
-                
-        try
-        {
+
+        try {
             port = 5555;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //        try {
@@ -526,51 +507,47 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 //        }
 
         GUIChat gc = new GUIChat(host, port, user);
-        
-        gc.setTitle("BIS Messenger        User: "+user+"           Room: ");
+
+        gc.setTitle("BIS Messenger        User: " + user + "           Room: ");
     }
-   
+
     @Override
     public void display(String message) {
         textArea.insert(message, 0);
     }
-    
+
     public void displayUserList(String[] userList) {
-        
+
         DefaultListModel model = new DefaultListModel();
-        for(int i=0; i< userList.length;i++){
+        for (int i = 0; i < userList.length; i++) {
             model.addElement(userList[i]);
-            System.out.println("Adding users " +userList[i]);
-        }
-        
-        
-        System.out.println("Adding users");
-        lstUsers.setModel(model);
-        
-    }
-    
-    public void displayRoomList(String[] roomList) {
-        
-        DefaultListModel model = new DefaultListModel();
-        for(int i=0; i< roomList.length;i++){
-            if(!model.contains(roomList[i])){
-                model.addElement(roomList[i]);
-                System.out.println("Adding users " +roomList[i]);
-            }  
+            System.out.println("Adding users " + userList[i]);
         }
 
         System.out.println("Adding users");
-        lstRooms.setModel(model); 
+        lstUsers.setModel(model);
+
     }
-    
-    public void send(String msg){
+
+    public void displayRoomList(String[] roomList) {
+
+        DefaultListModel model = new DefaultListModel();
+        for (int i = 0; i < roomList.length; i++) {
+            if (!model.contains(roomList[i])) {
+                model.addElement(roomList[i]);
+                System.out.println("Adding users " + roomList[i]);
+            }
+        }
+
+        System.out.println("Adding users");
+        lstRooms.setModel(model);
+    }
+
+    public void send(String msg) {
         client.handleMessageFromClientUI(msg);
     }
-    
-    public void sendEnvelope(Envelope e){
+
+    public void sendEnvelope(Envelope e) {
         client.handleEnvelopeFromClientUI(e);
     }
-    
-    
-  
 }
