@@ -53,21 +53,18 @@ public class EchoServer extends AbstractServer
    */
     public void handleMessageFromClient(Object msg, ConnectionToClient client) {
         if (msg instanceof Envelope) {
-            Envelope e = (Envelope)msg;
+            Envelope e = (Envelope) msg;
             if (e.getKey().equals("sendFile")) {
                 File f = e.getFile();
                 String fileName = f.getName();
-                byte[] fileContents = (byte[])e.getData();
+                byte[] fileContents = (byte[]) e.getData();
                 //1.Save to server
-                try{
-                    saveFile(fileName, fileContents);
-                }
-                
-                catch (Exception exc){
+                try {
+                    saveFile(fileName, fileContents, f);
+                } catch (Exception exc) {
                     exc.printStackTrace();
                 }
-                
-                
+
             }
         } else {
             String message = msg.toString();
@@ -352,17 +349,18 @@ public class EchoServer extends AbstractServer
     }
     }
     
-    public static void saveFile(String fileName, byte[] fileContents)throws Exception{
+    public static void saveFile(String fileName, byte[] fileContents, File file)throws Exception{
         
-        ObjectInputStream ois = new ObjectInputStream(null);
+        FileInputStream fis = new FileInputStream(file);
+        //ObjectInputStream ois = new ObjectInputStream(fis);
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        //ObjectOutputStream oos = new ObjectOutputStream(fos);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
         
         //No of bytes read in one read() call
         int bytesRead = 0; 
         
-        while((bytesRead=ois.read(fileContents))!=-1)
+        while((bytesRead=fis.read(fileContents))!=-1)
             bos.write(fileContents, 0, bytesRead); 
         
         bos.flush(); 

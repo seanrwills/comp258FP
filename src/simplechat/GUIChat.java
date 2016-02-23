@@ -55,10 +55,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuItemJoinRoom = new javax.swing.JMenuItem();
         jMenuSend = new javax.swing.JMenu();
         jMenuItemBroadcast = new javax.swing.JMenuItem();
-        jMenuItemPicture = new javax.swing.JMenuItem();
-        jMenuItemFile = new javax.swing.JMenuItem();
         jMenuItemContact = new javax.swing.JMenuItem();
-        jMenuItemMyIP = new javax.swing.JMenuItem();
         jMenuItemDicPic = new javax.swing.JMenuItem();
         jMenuItemCoordinates = new javax.swing.JMenuItem();
         jMenuEmoji = new javax.swing.JMenu();
@@ -264,17 +261,8 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuItemBroadcast.setText("Broadcast");
         jMenuSend.add(jMenuItemBroadcast);
 
-        jMenuItemPicture.setText("Picture");
-        jMenuSend.add(jMenuItemPicture);
-
-        jMenuItemFile.setText("File");
-        jMenuSend.add(jMenuItemFile);
-
         jMenuItemContact.setText("Contact");
         jMenuSend.add(jMenuItemContact);
-
-        jMenuItemMyIP.setText("My IP");
-        jMenuSend.add(jMenuItemMyIP);
 
         jMenuItemDicPic.setText("Dick Pic");
         jMenuItemDicPic.addActionListener(new java.awt.event.ActionListener() {
@@ -433,12 +421,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JMenuItem jMenuItemCoordinates;
     javax.swing.JMenuItem jMenuItemDicPic;
     javax.swing.JMenuItem jMenuItemExit;
-    javax.swing.JMenuItem jMenuItemFile;
     javax.swing.JMenuItem jMenuItemJoinRoom;
     javax.swing.JMenuItem jMenuItemLeave;
-    javax.swing.JMenuItem jMenuItemMyIP;
     javax.swing.JMenuItem jMenuItemNewRoom;
-    javax.swing.JMenuItem jMenuItemPicture;
     javax.swing.JMenuItem jMenuItemPingChatroom;
     javax.swing.JMenuItem jMenuItemPingContact;
     javax.swing.JMenuItem jMenuItemPrivateMessage;

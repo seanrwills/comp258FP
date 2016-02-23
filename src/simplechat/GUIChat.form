@@ -190,24 +190,9 @@
                 <Property name="text" type="java.lang.String" value="Broadcast"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPicture">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Picture"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemFile">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="File"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemContact">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Contact"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMyIP">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="My IP"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDicPic">

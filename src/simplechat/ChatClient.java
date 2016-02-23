@@ -4,9 +4,6 @@ package simplechat;
 import java.awt.Toolkit;
 import java.io.*;
 import java.io.File;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -149,29 +146,7 @@ public class ChatClient extends AbstractClient
       quit();
     } 
   }
-  
-  
- public static void recieveFile(byte[]file)throws Exception{
-        
-        byte[] contents = new byte[10000];
-        
-        //Initialize the FileOutputStream to the output file's full path.
-        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
      
-        //No of bytes read in one read() call
-        int bytesRead = 0; 
-        
-        while((bytesRead=is.read(contents))!=-1)
-            bos.write(contents, 0, bytesRead); 
-        
-        bos.flush(); 
-        socket.close(); 
-        
-        System.out.println("File saved successfully!");
-    }
-    
-    
     public static byte[] getFile(String fileLocation) throws IOException{
        
         //Specify the file
