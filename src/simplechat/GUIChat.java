@@ -350,7 +350,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             //String destination = JOptionPane.showInputDialog("Enter receiver name:");
             File fileToSend = fileChooser.getSelectedFile();
-            Envelope e = new Envelope("sendFile", fileToSend);
+            String destinationClient = JOptionPane.showInputDialog("Enter Destination Username: ");
+            
+            Envelope e = new Envelope("sendFile", fileToSend, destinationClient);
             sendEnvelope(e);
         }
     }//GEN-LAST:event_jBtnUploadActionPerformed

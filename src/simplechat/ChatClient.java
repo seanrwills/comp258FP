@@ -122,10 +122,10 @@ public class ChatClient extends AbstractClient
   
     public void handleEnvelopeFromClientUI(Envelope e) {
         if (e.getKey().equals("sendFile")) {
-            File f = (File) e.getData();
+            File f = e.getFile();
             String fileLocation = f.getAbsolutePath();
             try {
-                Envelope fts = new Envelope(e.getKey(), getFile(fileLocation), f);
+                Envelope fts = new Envelope(e.getKey(), getFile(fileLocation), f, e.getDestinationUserName());
                 sendToServer(fts);
             } catch (IOException ioe) {
                 ioe.printStackTrace();

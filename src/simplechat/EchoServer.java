@@ -51,6 +51,7 @@ public class EchoServer extends AbstractServer
         if (msg instanceof Envelope) {
             Envelope e = (Envelope) msg;
             if (e.getKey().equals("sendFile")) {
+                
                 File f = e.getFile();
                 String fileName = f.getName();
                 byte[] fileContents = (byte[]) e.getData();
@@ -157,6 +158,26 @@ public class EchoServer extends AbstractServer
  
  public void sendToAClient(Object msg, ConnectionToClient client, String pmTarget)
   {
+         if (msg instanceof Envelope) {
+          Envelope e = (Envelope) msg;
+          
+          String targetRecipient = e.getDestinationUserName();
+          Thread[] clientThreadList = getClientConnections();
+          String fileSender = client.getInfo("username").toString();
+             for (int i = 0; i < clientThreadList.length; i++) {
+                 String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                 if (fileReceiver.equals(targetRecipient)) {
+                     try {
+                         ((ConnectionToClient) clientThreadList[i]).sendToClient(msg);
+                     } catch (Exception ex) {
+                         ex.printStackTrace();
+                     }
+                 }
+             }
+        
+    }
+    else{
     Thread[] clientThreadList = getClientConnections();
     String pmSender = client.getInfo("username").toString();
     msg = "PM from "+pmSender+": "+msg;
@@ -174,7 +195,10 @@ public class EchoServer extends AbstractServer
             }
        }      
       }
+    }
   }
+ 
+ 
  
  //VIJAYS CODE: INVITING A CLIENT TO A ROOM.
 // public void InviteClientToARoom(ConnectionToClient client){
@@ -347,60 +371,12 @@ public class EchoServer extends AbstractServer
     
     public static void saveFile(String fileName, byte[] fileContents)throws Exception{
         
-
-        //FileUtils.wirteByteArrayToFile(new File("C:\\BISMFileStore\\"+fileName), fileContents);
-        
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\"+fileName);
         fos.write(fileContents);
         fos.close();
   
         System.out.println("File saved successfully!");
-    }
-    
-    
-    public static void sendFile(String ipAddress,int portNo,String fileLocation) throws IOException{
-       //Initialize Sockets
-        ServerSocket ssock = new ServerSocket(portNo);
-        Socket socket = ssock.accept();
-        
-        //The InetAddress specification
-        InetAddress IA = InetAddress.getByName("localhost"); 
-        
-        //Specify the file
-        File file = new File(fileLocation);
-        FileInputStream fis = new FileInputStream(file);
-        BufferedInputStream bis = new BufferedInputStream(fis); 
-          
-        //Get socket's output stream
-        OutputStream os = socket.getOutputStream();
-                
-        //Read File Contents into contents array 
-        byte[] contents;
-        long fileLength = file.length(); 
-        long current = 0;
-         
-        long start = System.nanoTime();
-        while(current!=fileLength){ 
-            int size = 10000;
-            if(fileLength - current >= size)
-                current += size;    
-            else{ 
-                size = (int)(fileLength - current); 
-                current = fileLength;
-            } 
-            contents = new byte[size]; 
-            bis.read(contents, 0, size); 
-            os.write(contents);
-            System.out.print("Sending file ... "+(current*100)/fileLength+"% complete!");
-        }   
-        
-        os.flush(); 
-        //File transfer done. Close the socket connection!
-        socket.close();
-        ssock.close();
-        System.out.println("File sent succesfully!"); 
-    }
-    
+    }   
 }
 
 

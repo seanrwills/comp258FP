@@ -17,6 +17,7 @@ public class Envelope implements Serializable {
     private String key;
     private Object data;
     private File file;
+    private String destinationUserName;
 
     public Envelope() {
     }
@@ -30,6 +31,18 @@ public class Envelope implements Serializable {
         this.setKey(key);
         this.setData(data);
         this.setFile(file);
+    }
+    
+        public Envelope(String key,File file, String destinationusername){
+        this.setKey(key);
+        this.setFile(file);
+        this.setDestinationUserName(destinationusername);
+    }
+    public Envelope(String key, Object data, File file, String destinationusername){
+        this.setKey(key);
+        this.setData(data);
+        this.setFile(file);
+        this.setDestinationUserName(destinationusername);
     }
 
     /**
@@ -72,5 +85,19 @@ public class Envelope implements Serializable {
      */
     public void setFile(File file) {
         this.file = file;
+    }
+
+    /**
+     * @return the destinationUserName
+     */
+    public String getDestinationUserName() {
+        return destinationUserName;
+    }
+
+    /**
+     * @param destinationUserName the destinationUserName to set
+     */
+    public void setDestinationUserName(String destinationUserName) {
+        this.destinationUserName = destinationUserName;
     }
 }
