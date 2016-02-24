@@ -406,7 +406,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         
         String pmTarget = JOptionPane.showInputDialog("Enter Username For Private Message:");
         String whisper = JOptionPane.showInputDialog("Enter Private Message:");
-        client.sendCommandToServer("#pm " + pmTarget + " " + whisper);
+        client.handleClientCommand("#pm " + pmTarget + " " + whisper);
         
     }//GEN-LAST:event_jMenuItemPrivateMessageActionPerformed
 
