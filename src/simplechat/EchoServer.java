@@ -87,14 +87,26 @@ public class EchoServer extends AbstractServer
                     client.setInfo("room", room);
                     sendRoomListToAllClients();
                 } else if (message.indexOf("#pm") == 0) {
+                    System.out.println("start on server");
                     int start = message.indexOf(" ");
+                    System.out.println(start);
                     int end = message.length();
+                    System.out.println(end);
                     String msgWOCommand = message.substring(start, end);
+                    System.out.println(msgWOCommand);
+                    msgWOCommand = msgWOCommand.trim();
+                    end = msgWOCommand.length();
                     int space = msgWOCommand.indexOf(" ");
+                    System.out.println(space);
                     String target = msgWOCommand.substring(0, space);
+                    System.out.println(target);
                     String whisper = msgWOCommand.substring(space, end);
+                    System.out.println(whisper);
                     target = target.trim();
+                    System.out.println(target);
                     whisper = whisper.trim();
+                    System.out.println(whisper);
+                    System.out.println("message " + whisper + "client " + client + "target " + target);
                     sendToAClient(whisper, client, target);
                 } else if (message.indexOf("#userList") == 0) {
                     sendClientList(client);
