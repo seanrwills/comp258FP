@@ -149,7 +149,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jBtnUpload.setBackground(new java.awt.Color(151, 0, 204));
         jBtnUpload.setForeground(new java.awt.Color(255, 255, 255));
-        jBtnUpload.setText("Upload File");
+        jBtnUpload.setText("Send File");
         jBtnUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnUploadActionPerformed(evt);
@@ -197,10 +197,15 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         jMenuItemPrivateMessage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPrivateMessage.setText("Private Message");
+        jMenuItemPrivateMessage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrivateMessageActionPerformed(evt);
+            }
+        });
         jMenuMessaging.add(jMenuItemPrivateMessage);
 
         jMenuItemPingChatroom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemPingChatroom.setText("Ping Chat Room");
+        jMenuItemPingChatroom.setText("Ping All Users");
         jMenuItemPingChatroom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemPingChatroomActionPerformed(evt);
@@ -301,7 +306,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
                         .addComponent(jPanelUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                         .addComponent(jBtnUpload)
                         .addGap(35, 35, 35))))
         );
@@ -346,7 +351,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             //String destination = JOptionPane.showInputDialog("Enter receiver name:");
             File fileToSend = fileChooser.getSelectedFile();
-            String destinationClient = JOptionPane.showInputDialog("Enter Destination Username: ");
+            String destinationClient = JOptionPane.showInputDialog("Enter Destination Username:");
 
             Envelope e = new Envelope("sendFile", fileToSend, destinationClient);
             sendEnvelope(e);
@@ -386,8 +391,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private void jMenuItemPingChatroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingChatroomActionPerformed
 
         client.sendCommandToServer("#ping");
-
-
     }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
 
     private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
@@ -398,6 +401,14 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private void jMenuItemPingContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingContactActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemPingContactActionPerformed
+
+    private void jMenuItemPrivateMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrivateMessageActionPerformed
+        
+        String pmTarget = JOptionPane.showInputDialog("Enter Username For Private Message:");
+        String whisper = JOptionPane.showInputDialog("Enter Private Message:");
+        client.sendCommandToServer("#pm " + pmTarget + " " + whisper);
+        
+    }//GEN-LAST:event_jMenuItemPrivateMessageActionPerformed
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -471,7 +482,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         //The port number
 
         try {
-            user = JOptionPane.showInputDialog("Enter user name: ");
+            user = JOptionPane.showInputDialog("Enter user name:");
         } catch (Exception e) {
             user = args[2];
             e.printStackTrace();

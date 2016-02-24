@@ -109,13 +109,16 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Private Message"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPrivateMessageActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPingChatroom">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+Q"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ping Chat Room"/>
+                <Property name="text" type="java.lang.String" value="Ping All Users"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPingChatroomActionPerformed"/>
@@ -271,7 +274,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="52" max="32767" attributes="0"/>
+                      <EmptySpace pref="62" max="32767" attributes="0"/>
                       <Component id="jBtnUpload" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
@@ -432,7 +435,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Upload File"/>
+        <Property name="text" type="java.lang.String" value="Send File"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnUploadActionPerformed"/>

@@ -54,11 +54,14 @@ public class EchoServer extends AbstractServer
                 String fileName = f.getName();
                 byte[] fileContents = (byte[]) e.getData();
                 //1.Save to server
-                try {
+                try{
                     saveFile(fileName, fileContents);
-                } catch (Exception exc) {
-                    exc.printStackTrace();
                 }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+                sendToAClient(e, client, fileName);
+                
             }
         } else {
             String message = msg.toString();
@@ -70,7 +73,7 @@ public class EchoServer extends AbstractServer
                     int space = message.indexOf(" ");
                     int end = message.length();
                     String user = message.substring(space, end);
-                    user.trim();
+                    user = user.trim();
                     client.setInfo("username", user);
                     sendUserListToAllClients();
                 } else if (message.indexOf("#who") == 0) {
@@ -80,7 +83,7 @@ public class EchoServer extends AbstractServer
                     int space = message.indexOf(" ");
                     int end = message.length();
                     String room = message.substring(space, end);
-                    room.trim();
+                    room = room.trim();
                     client.setInfo("room", room);
                     sendRoomListToAllClients();
                 } else if (message.indexOf("#pm") == 0) {
@@ -150,6 +153,8 @@ public class EchoServer extends AbstractServer
         if (msg instanceof Envelope) {
             Envelope e = (Envelope) msg;
 
+            if(e.getKey().equals("sendFile")){
+            
             String targetRecipient = e.getDestinationUserName();
             Thread[] clientThreadList = getClientConnections();
             String fileSender = client.getInfo("username").toString();
@@ -158,14 +163,17 @@ public class EchoServer extends AbstractServer
 
                 if (fileReceiver.equals(targetRecipient)) {
                     try {
-                        ((ConnectionToClient) clientThreadList[i]).sendToClient(msg);
+                        ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
+                    }
                 }
             }
-
-        } else {
+             
+        } 
+        
+        else {
             Thread[] clientThreadList = getClientConnections();
             String pmSender = client.getInfo("username").toString();
             msg = "PM from " + pmSender + ": " + msg;
@@ -332,7 +340,7 @@ public class EchoServer extends AbstractServer
     
     public static void saveFile(String fileName, byte[] fileContents) throws Exception {
 
-        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\" + fileName);
+        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStoreServer\\" + fileName);
         fos.write(fileContents);
         fos.close();
 
