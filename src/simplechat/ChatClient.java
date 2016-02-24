@@ -3,6 +3,7 @@ package simplechat;
 import java.awt.Toolkit;
 import java.io.*;
 import java.io.File;
+import javax.swing.JOptionPane;
 
 /**
  * This class overrides some of the methods defined in the abstract superclass
@@ -76,11 +77,22 @@ public class ChatClient extends AbstractClient {
         if (e.getKey().equals("userList")) {
             String[] userList = (String[]) e.getData();
             ((GUIChat) clientUI).displayUserList(userList);
-        } else if (e.getKey().equals("room")) {
-
+        } 
+        else if (e.getKey().equals("room")) {
             String[] userRoom = (String[]) e.getData();
             ((GUIChat) clientUI).displayRoomList(userRoom);
-
+        }
+        else if (e.getKey().equals("sendFile")){
+            File f = e.getFile();
+            String fileName = f.getName();
+            byte[] fileContents = (byte[]) e.getData();
+            try{
+            saveFile(fileName, fileContents);
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -89,6 +101,14 @@ public class ChatClient extends AbstractClient {
      *
      * @param message The message from the UI.
      */
+     public static void saveFile(String fileName, byte[] fileContents) throws Exception {
+
+        FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\" + fileName);
+        fos.write(fileContents);
+        fos.close();
+        JOptionPane.showConfirmDialog(null, "New File Saved");
+        System.out.println("File saved successfully!");
+    }
     public void handleMessageFromClientUI(String message) {
         if (message.charAt(0) == '#') {
             handleClientCommand(message);
