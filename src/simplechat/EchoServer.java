@@ -60,8 +60,14 @@ public class EchoServer extends AbstractServer
                 catch(Exception ex){
                     ex.printStackTrace();
                 }
-                sendToAClient(e, client, fileName);
-                
+                sendToAClient(e, client, fileName);  
+            }
+            else if(e.getKey().equals("location")){
+                try {
+                    sendEnvelopeToAClient(e, client);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         } else {
             String message = msg.toString();
@@ -164,27 +170,10 @@ public class EchoServer extends AbstractServer
     public void sendToAClient(Object msg, ConnectionToClient client, String pmTarget) {
         if (msg instanceof Envelope) {
             Envelope e = (Envelope) msg;
-
-            if(e.getKey().equals("sendFile")){
-            
-            String targetRecipient = e.getDestinationUserName();
-            Thread[] clientThreadList = getClientConnections();
-            String fileSender = client.getInfo("username").toString();
-            for (int i = 0; i < clientThreadList.length; i++) {
-                String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
-
-                if (fileReceiver.equals(targetRecipient)) {
-                    try {
-                        ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    }
-                }
+            if (e.getKey().equals("location")) {
+                sendEnvelopeToAClient(e, client);
             }
-             
         } 
-        
         else {
             Thread[] clientThreadList = getClientConnections();
             String pmSender = client.getInfo("username").toString();
@@ -204,21 +193,43 @@ public class EchoServer extends AbstractServer
         }
     }
  
- 
- 
- //VIJAYS CODE: INVITING A CLIENT TO A ROOM.
-// public void InviteClientToARoom(ConnectionToClient client){
-//     Thread[] clientThreadList = getClientConnections();
-//     
-//     for (int i=0; i<clientThreadList.length; i++)
-//     {
-//         ConnectionToClient target = ((ConnectionToClient)clientThreadList[i]);
-//     }
-//     
-//     
-//     
-// }
- 
+    public void sendEnvelopeToAClient(Envelope e, ConnectionToClient client){
+        
+        if(e.getKey().equals("sendFile")){
+            
+            String targetRecipient = e.getDestinationUserName();
+            Thread[] clientThreadList = getClientConnections();
+            String fileSender = client.getInfo("username").toString();
+            for (int i = 0; i < clientThreadList.length; i++) {
+                String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                if (fileReceiver.equals(targetRecipient)) {
+                    try {
+                        ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    }
+                }
+            }
+            else if (e.getKey().equals("location")) {
+                String targetRecipient = e.getDestinationUserName();
+                Thread[] clientThreadList = getClientConnections();
+                String fileSender = client.getInfo("username").toString();
+                for (int i = 0; i < clientThreadList.length; i++) {
+                    String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                    if (fileReceiver.equals(targetRecipient)) {
+                        try {
+                            ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        
+    }
     public void sendToAClientsInRoom(Object msg, ConnectionToClient client) {
         Thread[] clientThreadList = getClientConnections();
         String room = client.getInfo("room").toString();

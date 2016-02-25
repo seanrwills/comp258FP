@@ -1,5 +1,6 @@
 package simplechat;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
@@ -274,6 +275,11 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuSend.add(jMenuItemDicPic);
 
         jMenuItemCoordinates.setText("Coordinates");
+        jMenuItemCoordinates.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCoordinatesActionPerformed(evt);
+            }
+        });
         jMenuSend.add(jMenuItemCoordinates);
 
         jMenuBar.add(jMenuSend);
@@ -411,6 +417,15 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         System.out.println("GUI message sent " + pmTarget + " " + whisper);
         
     }//GEN-LAST:event_jMenuItemPrivateMessageActionPerformed
+
+    private void jMenuItemCoordinatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCoordinatesActionPerformed
+        String pmTarget = JOptionPane.showInputDialog("Enter Username to send Coordinates:");
+        String latitude = JOptionPane.showInputDialog("Enter Latitude:");
+        String longitude =JOptionPane.showInputDialog("Enter Longitude:");
+        File htmlFile = new File(createHTMLMap(latitude, longitude));
+        Envelope e = new Envelope("location",htmlFile, pmTarget);
+        client.handleEnvelopeFromClientUI(e);
+    }//GEN-LAST:event_jMenuItemCoordinatesActionPerformed
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -562,5 +577,38 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
     public void sendEnvelope(Envelope e) {
         client.handleEnvelopeFromClientUI(e);
+    }
+    
+    public String createHTMLMap(String latitude, String longitude) {
+        String htmlMap = ("<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "<script\n"
+                + "src=\"http://maps.googleapis.com/maps/api/js\">\n"
+                + "</script>\n"
+                + "<script>\n"
+                + "var myCenter=new google.maps.LatLng"
+                + "(" + latitude + "," + longitude + ");\n"
+                + "function initialize()\n"
+                + "{\n"
+                + "var mapProp = {\n"
+                + "  center:myCenter,\n"
+                + "  zoom:10,\n"
+                + "  mapTypeId:google.maps.MapTypeId.ROADMAP\n"
+                + "  };\n"
+                + "var map=new google.maps.Map(document.getElementById(\"googleMap\"),mapProp);\n"
+                + "var marker=new google.maps.Marker({\n"
+                + "  position:myCenter,\n"
+                + "  });\n"
+                + "marker.setMap(map);\n"
+                + "}\n"
+                + "google.maps.event.addDomListener(window, 'load', initialize);\n"
+                + "</script>\n"
+                + "</head>\n"
+                + "<body>\n"
+                + "<div id=\"googleMap\" style=\"width:500px;height:380px;\"></div>\n"
+                + "</body>\n"
+                + "</html>");
+        return htmlMap;
     }
 }

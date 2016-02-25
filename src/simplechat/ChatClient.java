@@ -1,5 +1,6 @@
 package simplechat;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.*;
 import java.io.File;
@@ -79,21 +80,24 @@ public class ChatClient extends AbstractClient {
         if (e.getKey().equals("userList")) {
             String[] userList = (String[]) e.getData();
             ((GUIChat) clientUI).displayUserList(userList);
-        } 
-        else if (e.getKey().equals("room")) {
+        } else if (e.getKey().equals("room")) {
             String[] userRoom = (String[]) e.getData();
             ((GUIChat) clientUI).displayRoomList(userRoom);
-        }
-        else if (e.getKey().equals("sendFile")){
+        } else if (e.getKey().equals("sendFile")) {
             File f = e.getFile();
             String fileName = f.getName();
             byte[] fileContents = (byte[]) e.getData();
-            try{
-            saveFile(fileName, fileContents);
-            }
-            catch(Exception ex)
-            {
+            try {
+                saveFile(fileName, fileContents);
+            } catch (Exception ex) {
                 ex.printStackTrace();
+            }
+        } else if (e.getKey().equals("location")) {
+            File htmlFile = e.getFile();
+            try {
+                Desktop.getDesktop().browse(htmlFile.toURI());
+            } catch (IOException ioe) {
+                System.out.println("Sorry, could not display map!");
             }
         }
     }
@@ -132,6 +136,14 @@ public class ChatClient extends AbstractClient {
                 Envelope fts = new Envelope(e.getKey(), getFileBytes(fileLocation), f, e.getDestinationUserName());
                 sendToServer(fts);
             } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+        else if(e.getKey().equals("location")){
+            try{
+                sendToServer(e);
+            }
+            catch(IOException ioe){
                 ioe.printStackTrace();
             }
         }
