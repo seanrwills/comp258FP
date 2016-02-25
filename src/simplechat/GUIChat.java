@@ -48,18 +48,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuMessaging = new javax.swing.JMenu();
         jMenuItemPrivateMessage = new javax.swing.JMenuItem();
         jMenuItemPingChatroom = new javax.swing.JMenuItem();
-        jMenuItemPingContact = new javax.swing.JMenuItem();
         jMenuRoom = new javax.swing.JMenu();
         jMenuItemLeave = new javax.swing.JMenuItem();
         jMenuItemNewRoom = new javax.swing.JMenuItem();
         jMenuItemJoinRoom = new javax.swing.JMenuItem();
         jMenuSend = new javax.swing.JMenu();
-        jMenuItemBroadcast = new javax.swing.JMenuItem();
-        jMenuItemContact = new javax.swing.JMenuItem();
         jMenuItemDicPic = new javax.swing.JMenuItem();
         jMenuItemCoordinates = new javax.swing.JMenuItem();
-        jMenuEmoji = new javax.swing.JMenu();
-        jMenuItemSendEmoji = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -217,15 +212,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         });
         jMenuMessaging.add(jMenuItemPingChatroom);
 
-        jMenuItemPingContact.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemPingContact.setText("Ping Contact");
-        jMenuItemPingContact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPingContactActionPerformed(evt);
-            }
-        });
-        jMenuMessaging.add(jMenuItemPingContact);
-
         jMenuBar.add(jMenuMessaging);
 
         jMenuRoom.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,12 +249,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuSend.setForeground(new java.awt.Color(255, 255, 255));
         jMenuSend.setText("Send");
 
-        jMenuItemBroadcast.setText("Broadcast");
-        jMenuSend.add(jMenuItemBroadcast);
-
-        jMenuItemContact.setText("Contact");
-        jMenuSend.add(jMenuItemContact);
-
         jMenuItemDicPic.setText("Dick Pic");
         jMenuItemDicPic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,14 +266,6 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         jMenuSend.add(jMenuItemCoordinates);
 
         jMenuBar.add(jMenuSend);
-
-        jMenuEmoji.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuEmoji.setText("Emoji");
-
-        jMenuItemSendEmoji.setText("Send Emoji");
-        jMenuEmoji.add(jMenuItemSendEmoji);
-
-        jMenuBar.add(jMenuEmoji);
 
         setJMenuBar(jMenuBar);
 
@@ -395,21 +367,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     private void jMenuItemChangeUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemChangeUserNameActionPerformed
         String newUserName = JOptionPane.showInputDialog("Enter new user name:");
         client.sendCommandToServer("#setUser " + newUserName);
+        setTitle("BIS Messenger        User: " + newUserName);
     }//GEN-LAST:event_jMenuItemChangeUserNameActionPerformed
 
     private void jMenuItemPingChatroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingChatroomActionPerformed
 
         client.sendCommandToServer("#ping");
     }//GEN-LAST:event_jMenuItemPingChatroomActionPerformed
-
-    private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
-        JOptionPane.showMessageDialog(null, "You're selfish and disgusting", "Put that away!", JOptionPane.PLAIN_MESSAGE);
-        //JOptionPane.showMessageDialog(rootPane, evt);
-    }//GEN-LAST:event_jMenuItemDicPicActionPerformed
-
-    private void jMenuItemPingContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPingContactActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemPingContactActionPerformed
 
     private void jMenuItemPrivateMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrivateMessageActionPerformed
         
@@ -436,8 +400,13 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jMenuItemCoordinatesActionPerformed
+
+    private void jMenuItemDicPicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDicPicActionPerformed
+        JOptionPane.showMessageDialog(null, "You're selfish and disgusting", "Put that away!", JOptionPane.PLAIN_MESSAGE);
+        //JOptionPane.showMessageDialog(rootPane, evt);
+    }//GEN-LAST:event_jMenuItemDicPicActionPerformed
 
     final public static int DEFAULT_PORT = 5555;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -449,12 +418,9 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JLabel jLblUsers;
     javax.swing.JList jList1;
     javax.swing.JMenuBar jMenuBar;
-    javax.swing.JMenu jMenuEmoji;
     javax.swing.JMenu jMenuFile;
     javax.swing.JMenuItem jMenuItem1;
-    javax.swing.JMenuItem jMenuItemBroadcast;
     javax.swing.JMenuItem jMenuItemChangeUserName;
-    javax.swing.JMenuItem jMenuItemContact;
     javax.swing.JMenuItem jMenuItemCoordinates;
     javax.swing.JMenuItem jMenuItemDicPic;
     javax.swing.JMenuItem jMenuItemExit;
@@ -462,9 +428,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
     javax.swing.JMenuItem jMenuItemLeave;
     javax.swing.JMenuItem jMenuItemNewRoom;
     javax.swing.JMenuItem jMenuItemPingChatroom;
-    javax.swing.JMenuItem jMenuItemPingContact;
     javax.swing.JMenuItem jMenuItemPrivateMessage;
-    javax.swing.JMenuItem jMenuItemSendEmoji;
     javax.swing.JMenu jMenuMessaging;
     javax.swing.JMenu jMenuRoom;
     javax.swing.JMenu jMenuSend;
@@ -548,7 +512,7 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
 
         GUIChat gc = new GUIChat(host, port, user);
 
-        gc.setTitle("BIS Messenger        User: " + user + "           Room: ");
+        gc.setTitle("BIS Messenger        User: " + user);
     }
 
     @Override

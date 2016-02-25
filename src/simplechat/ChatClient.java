@@ -89,6 +89,9 @@ public class ChatClient extends AbstractClient {
             byte[] fileContents = (byte[]) e.getData();
             try {
                 saveFile(fileName, fileContents);
+                String filePath = "C:\\BISMFileStore\\" + fileName;
+                File savedFile = new File(filePath);
+                Desktop.getDesktop().browse(savedFile.toURI());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -118,8 +121,9 @@ public class ChatClient extends AbstractClient {
         FileOutputStream fos = new FileOutputStream("C:\\BISMFileStore\\" + fileName);
         fos.write(fileContents);
         fos.close();
-        JOptionPane.showConfirmDialog(null, "New File Saved");
+        JOptionPane.showMessageDialog(null, "New File Saved");
         System.out.println("File saved successfully!");
+        
     }
     public void handleMessageFromClientUI(String message) {
         if (message.charAt(0) == '#') {
