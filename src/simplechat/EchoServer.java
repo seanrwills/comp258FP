@@ -63,8 +63,10 @@ public class EchoServer extends AbstractServer
                 sendToAClient(e, client, fileName);  
             }
             else if(e.getKey().equals("location")){
+                File f = e.getFile();
+                String fileName=f.getName();
                 try {
-                    sendEnvelopeToAClient(e, client);
+                    sendToAClient(e, client, fileName);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -172,6 +174,23 @@ public class EchoServer extends AbstractServer
             Envelope e = (Envelope) msg;
             if (e.getKey().equals("location")) {
                 sendEnvelopeToAClient(e, client);
+            }
+            if(e.getKey().equals("sendFile")){
+            
+            String targetRecipient = e.getDestinationUserName();
+            Thread[] clientThreadList = getClientConnections();
+            String fileSender = client.getInfo("username").toString();
+            for (int i = 0; i < clientThreadList.length; i++) {
+                String fileReceiver = ((ConnectionToClient) clientThreadList[i]).getInfo("username").toString();
+
+                if (fileReceiver.equals(targetRecipient)) {
+                    try {
+                        ((ConnectionToClient) clientThreadList[i]).sendToClient(e);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    }
+                }
             }
         } 
         else {

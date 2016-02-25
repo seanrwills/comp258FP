@@ -1,8 +1,11 @@
 package simplechat;
 
 import java.awt.Desktop;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.Buffer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -422,9 +425,18 @@ public class GUIChat extends javax.swing.JFrame implements ChatIF {
         String pmTarget = JOptionPane.showInputDialog("Enter Username to send Coordinates:");
         String latitude = JOptionPane.showInputDialog("Enter Latitude:");
         String longitude =JOptionPane.showInputDialog("Enter Longitude:");
-        File htmlFile = new File(createHTMLMap(latitude, longitude));
-        Envelope e = new Envelope("location",htmlFile, pmTarget);
-        client.handleEnvelopeFromClientUI(e);
+        String html = (createHTMLMap(latitude, longitude));
+        File htmlMap = new File("C:\\BISMhtml\\htmlMap.html");
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(htmlMap));
+            bw.write(html);
+            bw.close();
+            Envelope e = new Envelope("location",htmlMap, pmTarget);
+            client.handleEnvelopeFromClientUI(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jMenuItemCoordinatesActionPerformed
 
     final public static int DEFAULT_PORT = 5555;

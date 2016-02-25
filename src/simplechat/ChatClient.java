@@ -93,11 +93,17 @@ public class ChatClient extends AbstractClient {
                 ex.printStackTrace();
             }
         } else if (e.getKey().equals("location")) {
-            File htmlFile = e.getFile();
+            File f = e.getFile();
+            String fileName = f.getName();
+            byte[] fileContents = (byte[]) e.getData();
             try {
+                saveFile(fileName, fileContents);
+                String htmlFilePath = "C:\\BISMFileStore\\htmlMap.html";
+                File htmlFile = new File(htmlFilePath);
+                // open the default web browser for the HTML page
                 Desktop.getDesktop().browse(htmlFile.toURI());
-            } catch (IOException ioe) {
-                System.out.println("Sorry, could not display map!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -140,8 +146,11 @@ public class ChatClient extends AbstractClient {
             }
         }
         else if(e.getKey().equals("location")){
+            File f = e.getFile();
+            String fileLocation = f.getAbsolutePath();
             try{
-                sendToServer(e);
+                Envelope fts = new Envelope(e.getKey(), getFileBytes(fileLocation),f, e.getDestinationUserName());
+                sendToServer(fts);
             }
             catch(IOException ioe){
                 ioe.printStackTrace();
